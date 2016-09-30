@@ -118,15 +118,18 @@ class MascotBot extends SlackBot {
             this[funcName] = (name, ...args) => {
               if (!DEBUG_WHITELIST.includes(name)) {
                 this.log(info.debugError, true);
+
+                return Promise.reject();
               }
-              else {
-                super[funcName](name, ...args);
-              }
+
+              return super[funcName](name, ...args);
             };
           }
           else {
             this[funcName] = () => {
               this.log(info.debugError, true);
+
+              return Promise.reject();
             };
           }
         })(func, funcInfo);
