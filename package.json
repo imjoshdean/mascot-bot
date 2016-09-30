@@ -11,7 +11,7 @@
     "lint": "eslint src test",
     "preversion": "npm run build",
     "postversion": "git push && git push --tags",
-    "start-dev": "npm run clean && npm run transpile && node lib/index.js",
+    "start-dev": "npm-run-all clean transpile && node lib/index.js",
     "test": "npm-run-all lint test:unit",
     "test:unit": "mocha --require babel-core/register --recursive"
   },
