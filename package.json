@@ -20,6 +20,8 @@
     "url": "git+https://github.com/mjstahl/es6-starter-kit.git"
   },
   "author": "Josh Dean <me@imjoshdean.com>",
+  "author": "Sheva Goldberg <b@shevagoldberg.com>",
+  "author": "Mark Stahl <mjstahl@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mjstahl/es6-starter-kit/issues"
