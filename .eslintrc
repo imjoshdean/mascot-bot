@@ -1,0 +1,15 @@
+{
+	"parser": "babel-eslint",
+	"extends": "airbnb/base",
+	"globals": {
+		"describe": true,
+		"it": true
+	},
+	"rules": {
+		"indent": ["error", 2],
+		"quotes": ["error", "single", { "allowTemplateLiterals": true }],
+		"brace-style": ["error", "stroustrup"],
+		"comma-dangle": ["error", "never"],
+		"one-var": ["error", "always"]
+	}
+}
