@@ -1,5 +1,11 @@
 import SlackBot from 'slackbots';
 
+const DEBUG_WHITELIST = [
+  'sheva',
+  'imjoshdean',
+  'drop-the-beatz'
+];
+
 class MascotBot extends SlackBot {
   constructor(settings = {}) {
     const name = settings.name || 'Mascot Bot';
@@ -84,8 +90,8 @@ class MascotBot extends SlackBot {
   }
 
   postTo(name, ...args) {
-    if (this.debug && name !== 'sheva' && name !== 'imjoshdean' && name !== 'drop-the-beatz') {
-      this.log('API limited in debug mode', true);
+    if (this.debug && !DEBUG_WHITELIST.includes(name)) {
+      this.log('postTo API limited in debug mode', true);
     }
     else {
       super.postTo(name, ...args);
@@ -93,8 +99,8 @@ class MascotBot extends SlackBot {
   }
 
   postMessageToUser(name, ...args) {
-    if (this.debug && name !== 'sheva' && name !== 'imjoshdean' && name !== 'drop-the-beatz') {
-      this.log('API limited in debug mode', true);
+    if (this.debug && !DEBUG_WHITELIST.includes(name)) {
+      this.log('postMessageToUser API limited in debug mode', true);
     }
     else {
       super.postMessageToUser(name, ...args);
@@ -102,8 +108,8 @@ class MascotBot extends SlackBot {
   }
 
   postMessageToGroup(name, ...args) {
-    if (this.debug && name !== 'sheva' && name !== 'imjoshdean' && name !== 'drop-the-beatz') {
-      this.log('API limited in debug mode', true);
+    if (this.debug && !DEBUG_WHITELIST.includes(name)) {
+      this.log('postMessageToGroup API limited in debug mode', true);
     }
     else {
       super.postMessageToGroup(name, ...args);
@@ -111,8 +117,8 @@ class MascotBot extends SlackBot {
   }
 
   postMessageToChannel(name, ...args) {
-    if (this.debug && name !== 'sheva' && name !== 'imjoshdean' && name !== 'drop-the-beatz') {
-      this.log('API limited in debug mode', true);
+    if (this.debug && !DEBUG_WHITELIST.includes(name)) {
+      this.log('postMessageToChannel API limited in debug mode', true);
     }
     else {
       super.postMessageToChannel(name, ...args);
