@@ -75,7 +75,7 @@ class MascotBot extends SlackBot {
   }
 
   postMessage(...args) {
-    if(this.debug) {
+    if (this.debug) {
       this.log('API limited in debug mode', true);
     }
     else {
@@ -84,7 +84,7 @@ class MascotBot extends SlackBot {
   }
 
   postTo(name, ...args) {
-    if(this.debug && name !== 'sheva' && name !== 'imjoshdean' && name !== 'drop-the-beatz') {
+    if (this.debug && name !== 'sheva' && name !== 'imjoshdean' && name !== 'drop-the-beatz') {
       this.log('API limited in debug mode', true);
     }
     else {
@@ -93,7 +93,7 @@ class MascotBot extends SlackBot {
   }
 
   postMessageToUser(name, ...args) {
-    if(this.debug && name !== 'sheva' && name !== 'imjoshdean' && name !== 'drop-the-beatz') {
+    if (this.debug && name !== 'sheva' && name !== 'imjoshdean' && name !== 'drop-the-beatz') {
       this.log('API limited in debug mode', true);
     }
     else {
@@ -102,7 +102,7 @@ class MascotBot extends SlackBot {
   }
 
   postMessageToGroup(name, ...args) {
-    if(this.debug && name !== 'sheva' && name !== 'imjoshdean' && name !== 'drop-the-beatz') {
+    if (this.debug && name !== 'sheva' && name !== 'imjoshdean' && name !== 'drop-the-beatz') {
       this.log('API limited in debug mode', true);
     }
     else {
@@ -111,7 +111,7 @@ class MascotBot extends SlackBot {
   }
 
   postMessageToChannel(name, ...args) {
-    if(this.debug && name !== 'sheva' && name !== 'imjoshdean' && name !== 'drop-the-beatz') {
+    if (this.debug && name !== 'sheva' && name !== 'imjoshdean' && name !== 'drop-the-beatz') {
       this.log('API limited in debug mode', true);
     }
     else {
