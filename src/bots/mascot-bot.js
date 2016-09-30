@@ -5,6 +5,29 @@ const DEBUG_WHITELIST = [
   'imjoshdean',
   'drop-the-beatz'
 ];
+const DEBUG_OVERLOAD_FUNCTIONS = {
+  postMessage: {
+    debugError: 'postMessage disabled API limited in debug mode ' +
+        'use postTo instead',
+    includeName: true
+  },
+  postTo: {
+    debugError: 'postTo API limited in debug mode',
+    includeName: true
+  },
+  postMessageToGroup: {
+    debugError: 'postMessageToGroup API limited in debug mode',
+    includeName: true
+  },
+  postMessageToChannel: {
+    debugError: 'postMessageToChannel API limited in debug mode',
+    includeName: true
+  },
+  postMessageToUser: {
+    debugError: 'postMessageToUser API limited in debug mode',
+    includeName: true
+  }
+};
 
 class MascotBot extends SlackBot {
   constructor(settings = {}) {
@@ -27,7 +50,11 @@ class MascotBot extends SlackBot {
     });
 
     this.debug = settings.debug;
-    this.debugRoom = settings.debugRoom || 'drop-the-beatz';
+
+    if (this.debug) {
+      this._overloadMessagingForDebug();
+    }
+
     this._behaviors = settings.behaviors || [];
   }
 
@@ -46,14 +73,15 @@ class MascotBot extends SlackBot {
     });
   }
 
-  setTopic(channel, topic, isPublic = true) {
-    const token = this.token;
+  setTopic(channelId, topic, isPublicRoom = true) {
+    const token = this.token,
+      channel = channelId;
 
     if (!channel) {
       this.log('Channel ID not provided', true);
     }
 
-    return this._api(isPublic ? 'channels.setTopic' : 'groups.setTopic', {
+    return this._api(isPublicRoom ? 'channels.setTopic' : 'groups.setTopic', {
       token,
       channel,
       topic
@@ -80,48 +108,29 @@ class MascotBot extends SlackBot {
     }
   }
 
-  postMessage(...args) {
-    if (this.debug) {
-      this.log('API limited in debug mode', true);
-    }
-    else {
-      super.postTo(...args);
-    }
-  }
+  _overloadMessagingForDebug() {
+    for (const func in DEBUG_OVERLOAD_FUNCTIONS) {
+      if ({}.hasOwnProperty.call(DEBUG_OVERLOAD_FUNCTIONS, func)) {
+        const funcInfo = DEBUG_OVERLOAD_FUNCTIONS[func];
 
-  postTo(name, ...args) {
-    if (this.debug && !DEBUG_WHITELIST.includes(name)) {
-      this.log('postTo API limited in debug mode', true);
-    }
-    else {
-      super.postTo(name, ...args);
-    }
-  }
-
-  postMessageToUser(name, ...args) {
-    if (this.debug && !DEBUG_WHITELIST.includes(name)) {
-      this.log('postMessageToUser API limited in debug mode', true);
-    }
-    else {
-      super.postMessageToUser(name, ...args);
-    }
-  }
-
-  postMessageToGroup(name, ...args) {
-    if (this.debug && !DEBUG_WHITELIST.includes(name)) {
-      this.log('postMessageToGroup API limited in debug mode', true);
-    }
-    else {
-      super.postMessageToGroup(name, ...args);
-    }
-  }
-
-  postMessageToChannel(name, ...args) {
-    if (this.debug && !DEBUG_WHITELIST.includes(name)) {
-      this.log('postMessageToChannel API limited in debug mode', true);
-    }
-    else {
-      super.postMessageToChannel(name, ...args);
+        ((funcName, info) => {
+          if (info.includeName) {
+            this[funcName] = (name, ...args) => {
+              if (!DEBUG_WHITELIST.includes(name)) {
+                this.log(info.debugError, true);
+              }
+              else {
+                super[funcName](name, ...args);
+              }
+            };
+          }
+          else {
+            this[funcName] = () => {
+              this.log(info.debugError, true);
+            };
+          }
+        })(func, funcInfo);
+      }
     }
   }
 
