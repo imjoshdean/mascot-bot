@@ -39,6 +39,20 @@ class MascotBot extends SlackBot {
     });
   }
 
+  setTopic(channel, topic, isPublic = true) {
+    const token = this.token;
+
+    if (!channel) {
+      this.log('Channel ID not provided', true);
+    }
+
+    return this._api(isPublic ? 'channels.setTopic' : 'groups.setTopic', {
+      token,
+      channel,
+      topic
+    });
+  }
+
   say(personOrPlace = '', message = '', params = {}) {
     if (!personOrPlace) {
       this.log('personOrPlace required to say anything', true);
