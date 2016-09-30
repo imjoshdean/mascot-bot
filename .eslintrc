@@ -10,6 +10,8 @@
 		"quotes": ["error", "single", { "allowTemplateLiterals": true }],
 		"brace-style": ["error", "stroustrup"],
 		"comma-dangle": ["error", "never"],
-		"one-var": ["error", "always"]
+		"one-var": ["error", "always"],
+		"no-param-reassign": ["error", { "props": false }],
+		"no-console": ["error", { allow: ["info", "error"] }]
 	}
 }
