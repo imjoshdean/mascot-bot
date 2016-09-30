@@ -15,22 +15,18 @@ class MascotBot extends SlackBot {
       throw new Error('No Slack API token provided');
     }
 
-    if (!settings.behaviors) {
-      settings.behaviors = []
-    }
-
     super({
       token,
       name
     });
 
-
     this.debugRoom = settings.debugRoom || 'drop-the-beatz';
-    this.behaviors = settings.behaviors || [];
+    this._behaviors = settings.behaviors || [];
   }
 
   log(message, error) {
-    console[error ? 'error' : 'log'](message);
+    // eslint-disable-next-line no-console
+    console[error ? 'error' : 'info'](message);
   }
 
   launch() {
@@ -40,26 +36,47 @@ class MascotBot extends SlackBot {
 
     this.on('close', () => {
       this._destroyBehaviors();
-    })
+    });
+  }
+
+  say(personOrPlace = '', message = '', params = {}) {
+    if (!personOrPlace) {
+      this.log('personOrPlace required to say anything', true);
+    }
+
+    const identifier = personOrPlace.slice(0, 1),
+      sendee = personOrPlace.substring(1, personOrPlace.length);
+
+    if (identifier === '@') {
+      this.postMessageToUser(sendee, message, params);
+    }
+    else if (identifier === '#') {
+      this.postTo(sendee, message, params);
+    }
+    else {
+      this.log(`Unable to end message to ${sendee}, ` +
+        `unsure where to send it with the ${identifier} identifier`, true);
+    }
   }
 
   _setupBehaviors() {
-    let initializedBehaviors = []
-    this.behaviors.forEach((behavior) => {
-      let behaviorInstance = new behavior({
+    const initializedBehaviors = [];
+
+    this._behaviors.forEach((Behavior) => {
+      const behaviorInstance = new Behavior({
         bot: this
       });
       this.log(`Initializing ${behaviorInstance.name} behavior on bot.`);
       initializedBehaviors.push(behaviorInstance);
     });
 
-    this.bheaviors = initializedBehaviors;
+    this.behaviors = initializedBehaviors;
   }
 
   _destroyBehaviors() {
-    for(let behavior in this.behaviors) {
+    this.behaviors.forEach((behavior) => {
       behavior.deconstruct();
-    }
+    });
   }
 }
 
