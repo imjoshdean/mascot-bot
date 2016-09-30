@@ -17,12 +17,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mjstahl/es6-starter-kit.git"
+    "url": "git+https://github.com/imjoshdean/beatz-bot.git"
   },
   "author": "Josh Dean <me@imjoshdean.com>",
+  "contributors": [{
+    "name": "Sheva Goldberg",
+    "email": "b@shevagoldberg.com"
+  }],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mjstahl/es6-starter-kit/issues"
+    "url": "https://github.com/imjoshdean/beatz-bot/issues"
   },
   "homepage": "https://bronycon.org",
   "devDependencies": {
