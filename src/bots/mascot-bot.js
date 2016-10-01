@@ -1,33 +1,33 @@
 import SlackBot from 'slackbots';
 
 const DEBUG_WHITELIST = [
-  'sheva',
-  'imjoshdean',
-  'drop-the-beatz'
-];
-const DEBUG_OVERLOAD_FUNCTIONS = {
-  postMessage: {
-    debugError: 'postMessage disabled API limited in debug mode ' +
-        'use postTo instead',
-    includeName: true
-  },
-  postTo: {
-    debugError: 'postTo API limited in debug mode',
-    includeName: true
-  },
-  postMessageToGroup: {
-    debugError: 'postMessageToGroup API limited in debug mode',
-    includeName: true
-  },
-  postMessageToChannel: {
-    debugError: 'postMessageToChannel API limited in debug mode',
-    includeName: true
-  },
-  postMessageToUser: {
-    debugError: 'postMessageToUser API limited in debug mode',
-    includeName: true
-  }
-};
+    'sheva',
+    'imjoshdean',
+    'drop-the-beatz'
+  ],
+  DEBUG_OVERLOAD_FUNCTIONS = {
+    postMessage: {
+      debugError: 'postMessage disabled API limited in debug mode ' +
+          'use postTo instead',
+      includeName: false
+    },
+    postTo: {
+      debugError: 'postTo API limited in debug mode',
+      includeName: true
+    },
+    postMessageToGroup: {
+      debugError: 'postMessageToGroup API limited in debug mode',
+      includeName: true
+    },
+    postMessageToChannel: {
+      debugError: 'postMessageToChannel API limited in debug mode',
+      includeName: true
+    },
+    postMessageToUser: {
+      debugError: 'postMessageToUser API limited in debug mode',
+      includeName: true
+    }
+  };
 
 class MascotBot extends SlackBot {
   constructor(settings = {}) {
