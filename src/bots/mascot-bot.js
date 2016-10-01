@@ -1,5 +1,34 @@
 import SlackBot from 'slackbots';
 
+const DEBUG_WHITELIST = [
+    'sheva',
+    'imjoshdean',
+    'drop-the-beatz'
+  ],
+  DEBUG_OVERLOAD_FUNCTIONS = {
+    postMessage: {
+      debugError: 'postMessage disabled API limited in debug mode ' +
+          'use postTo instead',
+      includeName: false
+    },
+    postTo: {
+      debugError: 'postTo API limited in debug mode',
+      includeName: true
+    },
+    postMessageToGroup: {
+      debugError: 'postMessageToGroup API limited in debug mode',
+      includeName: true
+    },
+    postMessageToChannel: {
+      debugError: 'postMessageToChannel API limited in debug mode',
+      includeName: true
+    },
+    postMessageToUser: {
+      debugError: 'postMessageToUser API limited in debug mode',
+      includeName: true
+    }
+  };
+
 class MascotBot extends SlackBot {
   constructor(settings = {}) {
     const name = settings.name || 'Mascot Bot';
@@ -20,7 +49,12 @@ class MascotBot extends SlackBot {
       name
     });
 
-    this.debugRoom = settings.debugRoom || 'drop-the-beatz';
+    this.debug = settings.debug;
+
+    if (this.debug) {
+      this._overloadMessagingForDebug();
+    }
+
     this._behaviors = settings.behaviors || [];
   }
 
@@ -36,6 +70,21 @@ class MascotBot extends SlackBot {
 
     this.on('close', () => {
       this._destroyBehaviors();
+    });
+  }
+
+  setTopic(channelId, topic, isPublicRoom = true) {
+    const token = this.token,
+      channel = channelId;
+
+    if (!channel) {
+      this.log('Channel ID not provided', true);
+    }
+
+    return this._api(isPublicRoom ? 'channels.setTopic' : 'groups.setTopic', {
+      token,
+      channel,
+      topic
     });
   }
 
@@ -56,6 +105,35 @@ class MascotBot extends SlackBot {
     else {
       this.log(`Unable to end message to ${sendee}, ` +
         `unsure where to send it with the ${identifier} identifier`, true);
+    }
+  }
+
+  _overloadMessagingForDebug() {
+    for (const func in DEBUG_OVERLOAD_FUNCTIONS) {
+      if ({}.hasOwnProperty.call(DEBUG_OVERLOAD_FUNCTIONS, func)) {
+        const funcInfo = DEBUG_OVERLOAD_FUNCTIONS[func];
+
+        ((funcName, info) => {
+          if (info.includeName) {
+            this[funcName] = (name, ...args) => {
+              if (!DEBUG_WHITELIST.includes(name)) {
+                this.log(info.debugError, true);
+
+                return Promise.reject();
+              }
+
+              return super[funcName](name, ...args);
+            };
+          }
+          else {
+            this[funcName] = () => {
+              this.log(info.debugError, true);
+
+              return Promise.reject();
+            };
+          }
+        })(func, funcInfo);
+      }
     }
   }
 
