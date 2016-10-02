@@ -2,7 +2,7 @@ import Behavior from './behavior.js';
 
 class RandomChannel extends Behavior {
   constructor(settings = {}) {
-    settings.name = settings.name || 'Random Channel';
+    settings.name = 'Random Channel';
 
     super(settings);
   }
@@ -10,24 +10,27 @@ class RandomChannel extends Behavior {
   initialize(bot) {
     super.initialize(bot);
 
-    let channels = bot._api('channels.list', { token: bot.token, exclude_archived: 1 });
+    const channels = bot._api('channels.list', { token: bot.token, exclude_archived: 1 });
 
-    channels.then(function(data) {
-      let randomChannel = data.channels[Math.floor(Math.random() * data.channels.length)];
+    channels.then(data => {
+      let randomChannel;
 
-      if(['all-staff', 'announcements'].includes(randomChannel.name)) {
-        let randomChannel = data.channels[Math.floor(Math.random() * data.channels.length)];
-      }
+      do {
+        randomChannel = data.channels[Math.floor(Math.random() * data.channels.length)];
+      } while (['all-staff', 'announcements'].includes(randomChannel.name));
 
-      let channelPurpose = randomChannel.purpose.value === '' ? '[no purpose set, but it\'s probably pretty good anyway]'
-        : randomChannel.purpose.value;
-      let period = ['.', '!', '?'].includes(channelPurpose.slice(-1)) ? '' : '.';
+      const purposeless = '[no purpose set, but it\'s probably pretty good anyway]',
+        channelPurpose = randomChannel.purpose.value === '' ? purposeless
+            : randomChannel.purpose.value,
+        period = ['.', '!', '?'].includes(channelPurpose.slice(-1)) ? '' : '.',
+        randomChannelMessage = `The random channel of the day is ` +
+          `<#${randomChannel.id}|${randomChannel.name}>: ` +
+          `${channelPurpose}${period} Check it out, yo!`;
 
-      bot.say('#drop-the-beatz', `The random channel of the day is <#${randomChannel.id}|${randomChannel.name}>: ` +
-        `${channelPurpose}${period} Check it out, yo!`, {
+      bot.say('#drop-the-beatz', randomChannelMessage, {
         icon_emoji: ':slack:'
       });
-    }, function(error) {
+    }, error => {
       bot.log(error, true);
     });
   }
