@@ -141,9 +141,29 @@ class MascotBot extends SlackBot {
     const initializedBehaviors = [];
 
     this._behaviors.forEach((Behavior) => {
-      const behaviorInstance = new Behavior({
-        bot: this
-      });
+      let behaviorInstance;
+
+      // If Behavior is an object, we can assume that it has a behavior
+      // property and a settings property. In the event that there is no
+      // behavior property, we'll skip it and move on
+      if (!(Behavior instanceof Function)) {
+        const BehaviorClass = Behavior.behavior,
+          behaviorSettings = Behavior.settings || {};
+
+        if (BehaviorClass === undefined) {
+          this.log(`Behavior class not passed in, skipping.`, true);
+          return;
+        }
+
+        behaviorSettings.bot = this;
+        behaviorInstance = new BehaviorClass(behaviorSettings);
+      }
+      else {
+        behaviorInstance = new Behavior({
+          bot: this
+        });
+      }
+
       this.log(`Initializing ${behaviorInstance.name} behavior on bot.`);
       initializedBehaviors.push(behaviorInstance);
     });
