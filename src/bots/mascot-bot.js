@@ -96,16 +96,16 @@ class MascotBot extends SlackBot {
     const identifier = personOrPlace.slice(0, 1),
       sendee = personOrPlace.substring(1, personOrPlace.length);
 
-    if (identifier === '@') {
-      this.postMessageToUser(sendee, message, params);
+    if (identifier !== '@' || identifier !== '#') {
+      return this.postTo(sendee, message, params);
     }
-    else if (identifier === '#') {
-      this.postTo(sendee, message, params);
-    }
-    else {
-      this.log(`Unable to end message to ${sendee}, ` +
-        `unsure where to send it with the ${identifier} identifier`, true);
-    }
+
+    const error = `Unable to end message to ${sendee}, ` +
+        `unsure where to send it with the ${identifier} identifier`;
+
+    this.log(error, true);
+
+    return Promise.reject(error);
   }
 
   _overloadMessagingForDebug() {
