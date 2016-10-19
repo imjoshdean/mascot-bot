@@ -1,4 +1,4 @@
-import Behavior from './behavior.js';
+import Behavior from '../behavior.js';
 
 class TestBehavior extends Behavior {
   constructor(settings = {}) {
@@ -10,17 +10,12 @@ class TestBehavior extends Behavior {
   initialize(bot) {
     super.initialize(bot);
 
-    bot.getGroup('drop-the-beatz').then(group => {
-      bot.setTopic(group.id, 'Change the topic again', false);
-    });
+    const name = this.name,
+      thought = `I'm learning with the ${name} behavior!`;
 
-    bot.say('@foobar', 'greet-on-start.js working', {
-      icon_emoji: ':desktop_computer:'
-    });
-
-
-    bot.say('#drop-the-beatz', 'I\'m learning!', {
-      icon_emoji: ':desktop_computer:'
+    bot.say('#drop-the-beatz', thought, { });
+    this.scheduleJob('*/5 * * * * *', () => {
+      bot.say('#drop-the-beatz', 'I am super chatty!');
     });
   }
 }

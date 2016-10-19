@@ -1,34 +1,5 @@
 import SlackBot from 'slackbots';
 
-const DEBUG_WHITELIST = [
-    'sheva',
-    'imjoshdean',
-    'drop-the-beatz'
-  ],
-  DEBUG_OVERLOAD_FUNCTIONS = {
-    postMessage: {
-      debugError: 'postMessage disabled API limited in debug mode ' +
-          'use postTo instead',
-      includeName: false
-    },
-    postTo: {
-      debugError: 'postTo API limited in debug mode',
-      includeName: true
-    },
-    postMessageToGroup: {
-      debugError: 'postMessageToGroup API limited in debug mode',
-      includeName: true
-    },
-    postMessageToChannel: {
-      debugError: 'postMessageToChannel API limited in debug mode',
-      includeName: true
-    },
-    postMessageToUser: {
-      debugError: 'postMessageToUser API limited in debug mode',
-      includeName: true
-    }
-  };
-
 class MascotBot extends SlackBot {
   constructor(settings = {}) {
     const name = settings.name || 'Mascot Bot';
@@ -48,12 +19,6 @@ class MascotBot extends SlackBot {
       token,
       name
     });
-
-    this.debug = settings.debug;
-
-    if (this.debug) {
-      this._overloadMessagingForDebug();
-    }
 
     this._behaviors = settings.behaviors || [];
   }
@@ -105,35 +70,6 @@ class MascotBot extends SlackBot {
     this.log(error, true);
 
     return Promise.reject(error);
-  }
-
-  _overloadMessagingForDebug() {
-    for (const func in DEBUG_OVERLOAD_FUNCTIONS) {
-      if ({}.hasOwnProperty.call(DEBUG_OVERLOAD_FUNCTIONS, func)) {
-        const funcInfo = DEBUG_OVERLOAD_FUNCTIONS[func];
-
-        ((funcName, info) => {
-          if (info.includeName) {
-            this[funcName] = (name, ...args) => {
-              if (!DEBUG_WHITELIST.includes(name)) {
-                this.log(info.debugError, true);
-
-                return Promise.reject();
-              }
-
-              return super[funcName](name, ...args);
-            };
-          }
-          else {
-            this[funcName] = () => {
-              this.log(info.debugError, true);
-
-              return Promise.reject();
-            };
-          }
-        })(func, funcInfo);
-      }
-    }
   }
 
   _setupBehaviors() {
