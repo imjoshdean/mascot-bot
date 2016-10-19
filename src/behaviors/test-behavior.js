@@ -14,6 +14,9 @@ class TestBehavior extends Behavior {
       thought = `I'm learning with the ${name} behavior!`;
 
     bot.say('#drop-the-beatz', thought, { });
+    this.scheduleJob('*/5 * * * * *', () => {
+      bot.say('#drop-the-beatz', 'I am super chatty!');
+    });
   }
 }
 
