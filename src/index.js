@@ -6,7 +6,13 @@ const name = process.env.NAME || 'Beatz Bot',
     debug: true,
     name,
     behaviors: [
-      TestBehavior
+      TestBehavior,
+      {
+        behavior: TestBehavior,
+        settings: {
+          name: 'Pass in settings'
+        }
+      }
     ]
   });
 
