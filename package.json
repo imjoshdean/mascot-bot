@@ -20,10 +20,12 @@
     "url": "git+https://github.com/imjoshdean/beatz-bot.git"
   },
   "author": "Josh Dean <me@imjoshdean.com>",
-  "contributors": [{
-    "name": "Sheva Goldberg",
-    "email": "b@shevagoldberg.com"
-  }],
+  "contributors": [
+    {
+      "name": "Sheva Goldberg",
+      "email": "b@shevagoldberg.com"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/imjoshdean/beatz-bot/issues"
@@ -47,7 +49,9 @@
     "rimraf": "^2.5.2",
     "slackbots": "^0.5.2"
   },
-  "dependencies": {},
+  "dependencies": {
+    "node-schedule": "^1.1.1"
+  },
   "engines": {
     "node": "^6.0.0",
     "npm": "^3.0.0"
