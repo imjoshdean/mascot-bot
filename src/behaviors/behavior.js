@@ -6,6 +6,7 @@ class Behavior {
     this.jobs = [];
 
     this.settings = settings;
+    this.bot = this.settings.bot;
 
     if (this.bot) {
       this.initialize(this.bot);
