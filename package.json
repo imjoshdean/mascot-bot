@@ -6,7 +6,6 @@
   "scripts": {
     "build": "npm-run-all clean test transpile",
     "clean": "rimraf lib",
-    "coverage": "nyc mocha --require babel-core/register --recursive",
     "transpile": "babel src -d lib --copy-files",
     "lint": "eslint src test",
     "preversion": "npm run build",
@@ -46,13 +45,13 @@
     "mocha": "^2.4.5",
     "npm-run-all": "^1.7.0",
     "nyc": "^8.1.0",
-    "rimraf": "^2.5.2",
-    "slackbots": "^0.5.2"
+    "rimraf": "^2.5.2"
   },
   "dependencies": {
     "lodash": "^4.16.4",
     "moment": "^2.15.1",
-    "node-schedule": "^1.1.1"
+    "node-schedule": "^1.1.1",
+    "slackbots": "^0.5.2"
   },
   "engines": {
     "node": "^6.0.0",
