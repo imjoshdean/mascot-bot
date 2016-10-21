@@ -5,8 +5,9 @@ class Behavior {
     this.name = settings.name || 'Behavior Name';
     this.jobs = [];
 
-    if (settings.bot) {
-      this.bot = settings.bot;
+    this.settings = settings;
+
+    if (this.bot) {
       this.initialize(this.bot);
     }
   }
