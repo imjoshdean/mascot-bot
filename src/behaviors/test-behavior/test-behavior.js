@@ -13,9 +13,9 @@ class TestBehavior extends Behavior {
     const name = this.name,
       thought = `I'm learning with the ${name} behavior!`;
 
-    bot.say('#drop-the-beatz', thought, { });
-    this.scheduleJob('*/5 * * * * *', () => {
-      bot.say('#drop-the-beatz', 'I am super chatty!');
+    //bot.say('#drop-the-beatz', thought, { });
+    this.scheduleJob('31 15 * * *', () => {
+      console.log('boom');
     });
   }
 }

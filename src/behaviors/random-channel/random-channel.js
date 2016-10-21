@@ -1,4 +1,4 @@
-import Behavior from './behavior.js';
+import Behavior from '../behavior.js';
 
 class RandomChannel extends Behavior {
   constructor(settings = {}) {
@@ -10,6 +10,14 @@ class RandomChannel extends Behavior {
   initialize(bot) {
     super.initialize(bot);
 
+    this.scheduleJob('* * * * *', () => {
+      bot.say(this.settings.sayInChannel, 'Once a minute, I\'ll say a random room name');
+
+      this.sayRandomChannel(bot);
+    });
+  }
+
+  sayRandomChannel(bot) {
     const channels = bot._api('channels.list', { token: bot.token, exclude_archived: 1 });
 
     channels.then(data => {
@@ -27,7 +35,7 @@ class RandomChannel extends Behavior {
           `<#${randomChannel.id}|${randomChannel.name}>: ` +
           `${channelPurpose}${period} Check it out, yo!`;
 
-      bot.say('#drop-the-beatz', randomChannelMessage, {
+      bot.say(this.settings.sayInChannel, randomChannelMessage, {
         icon_emoji: ':slack:'
       });
     }, error => {
