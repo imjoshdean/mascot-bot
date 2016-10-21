@@ -10,3 +10,10 @@ Provided you have the Slack API token, you can start up and running with
 npm install
 TOKEN={token} npm run start-dev
 ```
+
+If you are using yarn (which no reason not to) just do
+
+```node
+yarn
+TOKEN={token} npm run start-dev
+```
