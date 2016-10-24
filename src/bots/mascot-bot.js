@@ -8,8 +8,8 @@ class MascotBot extends SlackBot {
     if (settings.token) {
       token = settings.token;
     }
-    else if (process.env.TOKEN) {
-      token = process.env.TOKEN;
+    else if (process.env.SLACK_TOKEN) {
+      token = process.env.SLACK_TOKEN;
     }
     else {
       throw new Error('No Slack API token provided');
