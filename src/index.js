@@ -11,15 +11,15 @@ const name = process.env.NAME || 'Beatz Bot',
       {
         behavior: DaysUntil,
         settings: {
-          conDate: '08/11/2017',
-          sayInChannel: '#drop-the-beatz',
-          isPubic: false
+          conDate: '8/11/2017',
+          sayInChannel: '#all-staff',
+          isPubic: true
         }
       },
       {
         behavior: RandomChannel,
         settings: {
-          sayInChannel: '#drop-the-beatz'
+          sayInChannel: '#all-staff'
         }
       }
     ]

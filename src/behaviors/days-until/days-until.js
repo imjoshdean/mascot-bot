@@ -3,7 +3,7 @@ import moment from 'moment';
 
 class DaysUntil extends Behavior {
   constructor(settings = {}) {
-    settings.name = 'Random Channel';
+    settings.name = 'Days Until';
     settings.sayInChannel = settings.sayInChannel.replace('#', '');
 
     super(settings);
@@ -18,7 +18,7 @@ class DaysUntil extends Behavior {
   }
 
   calculateDaysUntil() {
-    const conDate = moment(this.conDate),
+    const conDate = moment(this.settings.conDate),
       today = moment();
 
     return conDate.diff(today, 'days') + 1;
@@ -33,8 +33,6 @@ class DaysUntil extends Behavior {
       let topic = channel.topic.value,
         message = '';
 
-      topic = topic.replace(/\d+ days? until BronyCon!/gi, '');
-
       if (days === 1) {
         message = '1 day until BronyCon!';
       }
@@ -42,7 +40,7 @@ class DaysUntil extends Behavior {
         message = `${days} days until BronyCon!`;
       }
 
-      topic = message + topic;
+      topic = topic.replace(/\d+ days? until BronyCon!/gi, message);
 
       bot._api(topicFunction, {
         token: bot.token,
