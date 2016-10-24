@@ -20,7 +20,7 @@ class Introductions extends Behavior {
       messages.messages.forEach((message) => {
         promise = promise.then(() => {
           const text = message.text.replace('@imjoshdean', joshTag).replace('@sheva', shevaTag);
-          return bot.say('#drop-the-beatz', text, message.options);
+          return bot.say('#all-staff', text, message.options);
         });
       });
     });
