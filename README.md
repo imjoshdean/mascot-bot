@@ -6,7 +6,7 @@ Beatz Bot is the future BronyCon Slack assistant currently under development. De
 
 1. [Create a bot user](https://my.slack.com/services/new/bot) in your Slack account.
 2. Install Beatz-Bot on any computer or server.
-3. Use the API token to execute the bot.
+3. Use the API token (xoxb-a-b) to execute the bot.
 
 ## Installing
 
@@ -18,8 +18,8 @@ yarn // npm install if you aren't using yarn yet
 
 ## Running Beatz Bot
 
-Where `{token}` is your Slack bot API token:
+Where `xoxb-a-b` is your Slack bot API token:
 
 ```node
-SLACK_TOKEN={token} npm run start-dev
+SLACK_TOKEN=xoxb-a-b npm run start-dev
 ```
