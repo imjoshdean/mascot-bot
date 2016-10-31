@@ -162,31 +162,3 @@ class Birthdays extends Behavior {
 }
 
 export default Birthdays;
-
-// authorize(credentials).then((auth) => {
-//   const sheets = google.sheets('v4');
-
-//   sheets.spreadsheets.values.get({
-//     auth,
-//     spreadsheetId: '1gNkOqGubDyI2oBCU9MzduS5sd_GK_MfS53sLRhZO_ns',
-//     range: 'Form Responses 1!C1:E'
-//   }, (err, response) => {
-//     if (err) {
-//       console.log('There was a problem getting the spreadsheet', err);
-
-//       return;
-//     }
-
-//     const keys = response.values.shift();
-
-//     console.log(_.map(response.values, (value) => {
-//       const obj = {};
-
-//       obj[keys[0]] = value[0];
-//       obj[keys[1]] = value[1];
-//       obj[keys[2]] = value[2];
-//       return obj;
-//     }));
-//   });
-
-// });
