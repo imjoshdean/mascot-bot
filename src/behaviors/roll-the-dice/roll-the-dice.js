@@ -11,12 +11,10 @@ class RollTheDice extends Behavior {
     super.initialize(bot);
 
     bot.on('message', (data) => {
-      if (data.text && data.text.includes('rtd ')) {
+      if (data.text && data.text.toLowerCase().includes('rtd ')) {
         const roll = this.parseRoll(data.text),
           rolls = [];
         let results = '';
-
-        roll.number = Math.min(100, roll.number);
 
         for (let i = 0; i < roll.number; i++) {
           rolls.push(Math.ceil(Math.random() * roll.sides));
@@ -41,6 +39,9 @@ class RollTheDice extends Behavior {
 
       number = +number;
       sides = +sides;
+
+      number = Math.min(100, number);
+      sides = Math.min(100, sides);
 
       return {
         number,
