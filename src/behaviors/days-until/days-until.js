@@ -29,6 +29,9 @@ class DaysUntil extends Behavior {
       topicFunction = this.settings.isPublic ? 'channels.setTopic' : 'groups.setTopic';
 
     bot[getFunction](this.settings.sayInChannel).then((channel) => {
+      // All data is cached with no way to refresh, temporary work around
+      bot.groups = undefined;
+      bot.channels = undefined;
       const days = this.calculateDaysUntil();
       let topic = channel.topic.value,
         message = '';
