@@ -6,6 +6,7 @@ import credentials from './client.json';
 class Birthdays extends Behavior {
   constructor(settings) {
     settings.name = 'Birthdays';
+    settings.sayInChannel = settings.sayInChannel.replace('#', '');
 
     super(settings);
   }
@@ -37,7 +38,9 @@ class Birthdays extends Behavior {
         });
 
         this.announceBirthday(bot, users).then(() => {
-          this.giveKarma(bot, users);
+          this.updateTopic(bot, users);
+          // Karma coming soon via a different behavior.
+          // this.giveKarma(bot, users);
         });
       });
     });
@@ -81,7 +84,7 @@ class Birthdays extends Behavior {
   }
 
   announceBirthday(bot, users) {
-    let message = `Happy birthday to`;
+    let message = `Happy birthday to:`;
 
     users.forEach((user, index) => {
       message += ` <@${user.id}|${user.name}>`;
@@ -98,14 +101,62 @@ class Birthdays extends Behavior {
       }
     });
 
-    return bot.say('#drop-the-beatz', message, {
+    return bot.say('#beatz-aux-port', message, {
       icon_emoji: ':cake:'
     });
   }
 
   giveKarma(bot, users, message = 'birthday karma') {
     users.forEach((user) => {
-      bot.say('#drop-the-beatz', `<@${user.id}|${user.name}>++ # ${message}`);
+      bot.say('#beatz-aux-port', `<@${user.id}|${user.name}>++ # ${message}`);
+    });
+  }
+
+  updateTopic(bot, users) {
+    const getFunction = false ? 'getChannel' : 'getGroup',
+      topicFunction = false ? 'channels.setTopic' : 'groups.setTopic';
+
+    bot[getFunction]('beatz-aux-port').then((channel) => {
+      const slackUsers = [];
+      let topic = channel.topic.value.split('|'),
+        message = ':birthday: Happy birthday ';
+
+      // Trim whitespace, only include non-happy birthday messages
+      topic = topic.map((item) => {
+        if (!item.toLowerCase().includes('happy birthday')) {
+          return item.trim();
+        }
+        return '';
+      }).filter(i => i !== '');
+
+      users.forEach((user) => {
+        slackUsers.push(`@${user.name}`);
+      });
+
+      if (slackUsers.length > 1) {
+        message += slackUsers.slice(0, -1).join(', ') + ' and ' + slackUsers.slice(-1);
+      }
+      else {
+        message += slackUsers[0];
+      }
+
+      message += '!';
+
+      topic.splice(1, 0, message);
+
+      topic = topic.join(' | ');
+
+      bot._api(topicFunction, {
+        token: bot.token,
+        channel: channel.id,
+        topic
+      }, (error) => {
+        bot.log(topicFunction, true);
+        bot.log(error, true);
+      });
+    }, (error) => {
+      bot.log(getFunction, true);
+      bot.log(error, true);
     });
   }
 }

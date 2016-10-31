@@ -8,7 +8,13 @@ const name = process.env.NAME || 'Beatz Bot',
   beatzBot = new MascotBot({
     name,
     behaviors: [
-      Birthdays,
+      {
+        behavior: Birthdays,
+        settings: {
+          sayInChannel: '#all-staff',
+          isPublic: true
+        }
+      },
       RollTheDice,
       {
         behavior: DaysUntil,
