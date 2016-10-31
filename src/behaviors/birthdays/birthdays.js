@@ -24,7 +24,8 @@ class Birthdays extends Behavior {
         todaysBirthdays = birthdays[`${today.getMonth() + 1}/${today.getDate()}`],
         userPromises = [];
 
-      if (!todaysBirthdays.length) {
+      if (!todaysBirthdays) {
+        this.updateTopic(bot);
         return;
       }
 
@@ -112,11 +113,14 @@ class Birthdays extends Behavior {
     });
   }
 
-  updateTopic(bot, users) {
-    const getFunction = false ? 'getChannel' : 'getGroup',
-      topicFunction = false ? 'channels.setTopic' : 'groups.setTopic';
+  updateTopic(bot, users = []) {
+    const getFunction = this.settings.isPublic ? 'getChannel' : 'getGroup',
+      topicFunction = this.settings.isPublic ? 'channels.setTopic' : 'groups.setTopic';
 
-    bot[getFunction]('beatz-aux-port').then((channel) => {
+    bot[getFunction](this.settings.sayInChannel).then((channel) => {
+      // All data is cached with no way to refresh, temporary work around
+      bot.groups = undefined;
+      bot.channels = undefined;
       const slackUsers = [];
       let topic = channel.topic.value.split('|'),
         message = ':birthday: Happy birthday ';
@@ -129,20 +133,23 @@ class Birthdays extends Behavior {
         return '';
       }).filter(i => i !== '');
 
-      users.forEach((user) => {
-        slackUsers.push(`@${user.name}`);
-      });
+      // If we have birthdays, prep the message to put into the topic
+      if (users.length) {
+        users.forEach((user) => {
+          slackUsers.push(`@${user.name}`);
+        });
 
-      if (slackUsers.length > 1) {
-        message += slackUsers.slice(0, -1).join(', ') + ' and ' + slackUsers.slice(-1);
+        if (slackUsers.length > 1) {
+          message += slackUsers.slice(0, -1).join(', ') + ' and ' + slackUsers.slice(-1);
+        }
+        else {
+          message += slackUsers[0];
+        }
+
+        message += '!';
+
+        topic.splice(1, 0, message);
       }
-      else {
-        message += slackUsers[0];
-      }
-
-      message += '!';
-
-      topic.splice(1, 0, message);
 
       topic = topic.join(' | ');
 
