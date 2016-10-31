@@ -3,7 +3,6 @@ import readline from 'readline';
 import GoogleAuth from 'google-auth-library';
 
 const SCOPES = [
-    'https://www.googleapis.com/auth/calendar.readonly',
     'https://www.googleapis.com/auth/spreadsheets.readonly'
   ],
   TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
