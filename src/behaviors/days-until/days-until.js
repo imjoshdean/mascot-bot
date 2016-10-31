@@ -12,7 +12,7 @@ class DaysUntil extends Behavior {
   initialize(bot) {
     super.initialize(bot);
 
-    this.scheduleJob('*/1 * * * *', () => {
+    this.scheduleJob('0 13 * * *', () => {
       this.updateTopic(bot);
     });
   }
