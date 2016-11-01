@@ -13,7 +13,7 @@ class Birthdays extends Behavior {
 
   initialize(bot) {
     super.initialize(bot);
-    this.scheduleJob('0 16 * * *', () => {
+    this.scheduleJob('0 15 * * *', () => {
       this.checkForBirthdays(bot);
     });
   }
@@ -109,7 +109,7 @@ class Birthdays extends Behavior {
 
   giveKarma(bot, users, message = 'birthday karma') {
     users.forEach((user) => {
-      bot.say('#beatz-aux-port', `<@${user.id}|${user.name}>++ # ${message}`);
+      bot.say(this.settings.sayInChannel, `<@${user.id}|${user.name}>++ # ${message}`);
     });
   }
 
