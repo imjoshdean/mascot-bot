@@ -7,6 +7,10 @@ import Birthdays from './behaviors/birthdays/birthdays.js';
 const name = process.env.NAME || 'Beatz Bot',
   beatzBot = new MascotBot({
     name,
+    useDatabase: true,
+    databaseSettings: {
+      keepAlive: 120
+    },
     behaviors: [
       {
         behavior: Birthdays,

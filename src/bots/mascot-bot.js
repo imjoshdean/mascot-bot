@@ -1,9 +1,19 @@
 import SlackBot from 'slackbots';
+import mongoose from 'mongoose';
 
 class MascotBot extends SlackBot {
   constructor(settings = {}) {
     const name = settings.name || 'Mascot Bot';
     let token = '';
+
+    if (settings.useDatabase) {
+      if (process.env.DATABASE_NAME) {
+        settings.database = process.env.DATABASE_NAME
+      }
+      else if (!settings.database) {
+        throw new Error('No database name provided');
+      }
+    }
 
     if (settings.token) {
       token = settings.token;
@@ -20,6 +30,7 @@ class MascotBot extends SlackBot {
       name
     });
 
+    this.settings = settings;
     this._behaviors = settings.behaviors || [];
   }
 
@@ -30,10 +41,14 @@ class MascotBot extends SlackBot {
 
   launch() {
     this.on('start', () => {
+      if (this.settings.useDatabase) {
+        this._connectDatabase(this.settings.database, this.settings.databaseSettings);
+      }
       this._setupBehaviors();
     });
 
     this.on('close', () => {
+      mongoose.connection.close();
       this._destroyBehaviors();
     });
   }
@@ -70,6 +85,10 @@ class MascotBot extends SlackBot {
     this.log(error, true);
 
     return Promise.reject(error);
+  }
+
+  _connectDatabase(database, options) {
+    mongoose.connect(`mongodb://localhost/${database}`, options);
   }
 
   _setupBehaviors() {
