@@ -1,5 +1,6 @@
 import SlackBot from 'slackbots';
 import mongoose from 'mongoose';
+import karma from '../behaviors/karma/karma.js';
 
 class MascotBot extends SlackBot {
   constructor(settings = {}) {
@@ -43,6 +44,9 @@ class MascotBot extends SlackBot {
     this.on('start', () => {
       if (this.settings.useDatabase) {
         this._connectDatabase(this.settings.database, this.settings.databaseSettings);
+        setTimeout(() => {
+          karma();
+        }, 1000);
       }
       this._setupBehaviors();
     });
