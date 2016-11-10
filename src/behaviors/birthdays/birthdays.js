@@ -3,6 +3,8 @@ import authorize from './google-events';
 import google from 'googleapis';
 import credentials from './client.json';
 
+const BIRTHDAY_MESSAGE = ':birthday: Happy birthday';
+
 class Birthdays extends Behavior {
   constructor(settings) {
     settings.name = 'Birthdays';
@@ -77,7 +79,6 @@ class Birthdays extends Behavior {
               birthdays[person.birthday] = [person];
             }
           });
-
           resolve(birthdays);
         });
       });
@@ -102,14 +103,14 @@ class Birthdays extends Behavior {
       }
     });
 
-    return bot.say('#beatz-aux-port', message, {
+    return bot.postTo(this.settings.sayInChannel, message, {
       icon_emoji: ':cake:'
     });
   }
 
   giveKarma(bot, users, message = 'birthday karma') {
     users.forEach((user) => {
-      bot.say(this.settings.sayInChannel, `<@${user.id}|${user.name}>++ # ${message}`);
+      bot.postTo(this.settings.sayInChannel, `<@${user.id}|${user.name}>++ # ${message}`);
     });
   }
 
@@ -121,37 +122,14 @@ class Birthdays extends Behavior {
       // All data is cached with no way to refresh, temporary work around
       bot.groups = undefined;
       bot.channels = undefined;
-      const slackUsers = [];
-      let topic = channel.topic.value.split('|'),
-        message = ':birthday: Happy birthday ';
 
-      // Trim whitespace, only include non-happy birthday messages
-      topic = topic.map((item) => {
-        if (!item.toLowerCase().includes('happy birthday')) {
-          return item.trim();
-        }
-        return '';
-      }).filter(i => i !== '');
-
-      // If we have birthdays, prep the message to put into the topic
-      if (users.length) {
-        users.forEach((user) => {
-          slackUsers.push(`@${user.name}`);
-        });
-
-        if (slackUsers.length > 1) {
-          message += slackUsers.slice(0, -1).join(', ') + ' and ' + slackUsers.slice(-1);
-        }
-        else {
-          message += slackUsers[0];
-        }
-
-        message += '!';
-
-        topic.splice(1, 0, message);
+      // If it's no one's birthday and the channel topic doesn't include our
+      // birthday message, we don't need to update the topic.
+      if (!users.length && !channel.topic.value.includes(BIRTHDAY_MESSAGE)) {
+        return;
       }
 
-      topic = topic.join(' | ');
+      const topic = this.generateBirthdayTopic(channel.topic.value, users);
 
       bot._api(topicFunction, {
         token: bot.token,
@@ -165,6 +143,38 @@ class Birthdays extends Behavior {
       bot.log(getFunction, true);
       bot.log(error, true);
     });
+  }
+
+  generateBirthdayTopic(topic = '', users = []) {
+    const slackUsers = [];
+    let birthdayMessage = `${BIRTHDAY_MESSAGE} `,
+      topicArray = [];
+
+    // Trim whitespace, only include non-happy birthday messages
+    topicArray = topic.split('|').map((item) => {
+      if (!item.toLowerCase().includes('happy birthday')) {
+        return item.trim();
+      }
+      return '';
+    }).filter(i => i !== '');
+
+    // If we have birthdays, prep the message to put into the topic
+    if (users.length) {
+      users.forEach((user) => {
+        slackUsers.push(`@${user.name}`);
+      });
+
+      if (slackUsers.length > 1) {
+        birthdayMessage += `${slackUsers.slice(0, -1).join(', ')} and ${slackUsers.slice(-1)}!`;
+      }
+      else {
+        birthdayMessage += `${slackUsers[0]}!`;
+      }
+
+      topicArray.splice(1, 0, birthdayMessage);
+    }
+
+    return topicArray.join(' | ');
   }
 }
 
