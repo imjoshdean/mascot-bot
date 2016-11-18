@@ -69,7 +69,7 @@ class Birthdays extends Behavior {
             const person = {
               birthday: value[0],
               year: value[1],
-              slackName: value[2]
+              slackName: value[2].toLowerCase().replace('@', '');
             };
 
             if (birthdays[person.birthday]) {
