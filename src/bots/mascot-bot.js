@@ -1,5 +1,7 @@
 import SlackBot from 'slackbots';
 
+const COMMAND_REGEX = /^!(\S+)/g;
+
 class MascotBot extends SlackBot {
   constructor(settings = {}) {
     const name = settings.name || 'Mascot Bot';
@@ -21,6 +23,7 @@ class MascotBot extends SlackBot {
     });
 
     this._behaviors = settings.behaviors || [];
+    this._behaviorCommands = [];
   }
 
   log(message, error) {
@@ -31,6 +34,33 @@ class MascotBot extends SlackBot {
   launch() {
     this.on('start', () => {
       this._setupBehaviors();
+
+      // Mascot bot will listen whenever any message comes through and parse it
+      // to see if any commands get issued in the message. If one does, it will
+      // attempt to find the associated behavior and send it to the behavior to
+      // execute the command.
+      this.on('message', data => {
+        if (data.text) {
+          const message = data.text.toLowerCase();
+          let [match] = message.match(COMMAND_REGEX) || [];
+
+          // If the message starts with a command, iterate over all the commands
+          // and attempt to find a matching command to execute it.
+          if (match) {
+            match = match.replace('!', '');
+
+            this._behaviorCommands.forEach(command => {
+              if (command.tag === match) {
+                command.behavior.execute(command.tag, data.text, data.channel, data);
+
+                return false;
+              }
+
+              return true;
+            });
+          }
+        }
+      });
     });
 
     this.on('close', () => {
@@ -98,6 +128,14 @@ class MascotBot extends SlackBot {
           bot: this
         });
       }
+
+      this._behaviorCommands.push(...behaviorInstance.commands.map(command => {
+        return {
+          tag: command.tag,
+          description: command.description,
+          behavior: behaviorInstance
+        };
+      }));
 
       this.log(`Initializing ${behaviorInstance.name} behavior on bot.`);
       initializedBehaviors.push(behaviorInstance);
