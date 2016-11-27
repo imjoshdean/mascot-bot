@@ -4,6 +4,7 @@ class Behavior {
   constructor(settings = {}) {
     this.name = settings.name || 'Behavior Name';
     this.jobs = [];
+    this.commands = [];
 
     this.settings = settings;
     this.bot = this.settings.bot;
@@ -16,6 +17,11 @@ class Behavior {
   initialize() { }
 
   deconstruct() { }
+
+  execute(command, message, channel, data) {
+    // eslint-disable-next-line no-console
+    console.warn(`execute not implemented for this behavior, ${command} dropped`);
+  }
 
   scheduleJob(cronSpec, callback) {
     const job = schedule.scheduleJob(cronSpec, callback);
