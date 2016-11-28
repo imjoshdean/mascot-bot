@@ -1,7 +1,8 @@
 import SlackBot from 'slackbots';
 import mongoose from 'mongoose';
-import karma from '../behaviors/karma/karma.js';
 
+// We want to use native promises
+mongoose.Promise = global.Promise;
 const COMMAND_REGEX = /^!(\S+)/g;
 
 class MascotBot extends SlackBot {
@@ -11,7 +12,7 @@ class MascotBot extends SlackBot {
 
     if (settings.useDatabase) {
       if (process.env.DATABASE_NAME) {
-        settings.database = process.env.DATABASE_NAME
+        settings.database = process.env.DATABASE_NAME;
       }
       else if (!settings.database) {
         throw new Error('No database name provided');
@@ -47,9 +48,6 @@ class MascotBot extends SlackBot {
     this.on('start', () => {
       if (this.settings.useDatabase) {
         this._connectDatabase(this.settings.database, this.settings.databaseSettings);
-        setTimeout(() => {
-          karma();
-        }, 1000);
       }
       this._setupBehaviors();
 
