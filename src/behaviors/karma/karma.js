@@ -18,6 +18,7 @@ class KarmaBehavior extends Behavior {
 
   initialize(bot) {
     bot.on('message', messageData => {
+      this.bot.users = undefined;
       if (messageData.text && messageData.text.match(USER_KARMA_REGEX)) {
         const [, userId, type, reason] = USER_KARMA_REGEX.exec(messageData.text),
           channel = messageData.channel;
@@ -32,7 +33,6 @@ class KarmaBehavior extends Behavior {
             karma[method](1, reason);
             karma.save();
           }
-
           this.bot.postMessage(channel, `<@${user.id}|${user.name}>'s karma has changed to ${karma.karma}.`, {
             icon_emoji: shouldIncrement ? ':karma:' : ':discentia:'
           });
@@ -44,6 +44,7 @@ class KarmaBehavior extends Behavior {
   execute(command, message, channel) {
     const [, userId] = USER_REGEX.exec(message);
 
+    this.bot.users = undefined;
     this._getKarmaAndUser(userId).then(data => {
       const user = data.user,
         karma = data.karma,
