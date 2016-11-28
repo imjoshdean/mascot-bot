@@ -52,10 +52,15 @@ class KarmaBehavior extends Behavior {
         negative = karma.sample(5, 'negative').map(reason => reason.reason).join('; ');
 
       let karmaMessage = `<@${user.id}|${user.name}> has ${karma.karma} karma. The highest it's ` +
-        `ever been was ${karma.highest} and it's ever been was ${karma.lowest}.\n\n`;
+        `ever been was ${karma.highest} and the lowest it's ever been was ${karma.lowest}.\n\n`;
 
-      karmaMessage += `Positive: ${positive}\n`;
-      karmaMessage += `Negative: ${negative}\n`;
+      if (positive) {
+        karmaMessage += `Positive: ${positive}\n`;
+      }
+
+      if (negative) {
+        karmaMessage += `Negative: ${negative}\n`;
+      }
 
       this.bot.postMessage(channel, karmaMessage, {
         icon_emoji: ':karma:'
