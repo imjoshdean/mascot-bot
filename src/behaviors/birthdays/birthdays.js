@@ -43,8 +43,7 @@ class Birthdays extends Behavior {
 
         this.announceBirthday(bot, users).then(() => {
           this.updateTopic(bot, users);
-          // Karma coming soon via a different behavior.
-          // this.giveKarma(bot, users);
+          this.giveKarma(bot, users);
         });
       });
     });
