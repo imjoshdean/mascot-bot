@@ -17,6 +17,7 @@ class Birthdays extends Behavior {
   initialize(bot) {
     super.initialize(bot);
     this.scheduleJob('0 15 * * *', () => {
+      bot.users = undefined;
       this.checkForBirthdays(bot);
     });
   }
