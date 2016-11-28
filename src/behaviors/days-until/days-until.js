@@ -4,6 +4,7 @@ import moment from 'moment';
 class DaysUntil extends Behavior {
   constructor(settings = {}) {
     settings.name = 'Days Until';
+    settings.description = 'Announces the days until the convention starts';
     settings.sayInChannel = settings.sayInChannel.replace('#', '');
 
     super(settings);

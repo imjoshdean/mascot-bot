@@ -3,11 +3,12 @@ import Behavior from '../behavior.js';
 class RollTheDice extends Behavior {
   constructor(settings) {
     settings.name = 'Roll The Dice';
+    settings.description = 'A simple dice rolling behavior'
     super(settings);
 
     this.commands.push({
       tag: 'rtd',
-      description: 'Rolls dice and outputs the results as well as the sum of those dice (e.g. !rtd 2d6 will output rolling two six sided dice)'
+      description: 'Rolls dice and outputs the results as well as the sum of those dice (e.g. `!rtd 2d6` will output rolling two six sided dice)'
     });
   }
 
