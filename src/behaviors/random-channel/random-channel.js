@@ -5,12 +5,17 @@ import _sample from 'lodash/sample';
 const CHECK_IT_OUT = [
   'Check it out, yo!',
   'Join in on the fun!',
-  'Come see what you\'re missing!'
+  'Come see what you\'re missing!',
+  'You should join and participate!',
+  'Why haven\'t you checked us out yet?',
+  'Want to come and talk with us?',
+  'Join, or don\'t, I guess...it\'s up to you!'
 ];
 
 class RandomChannel extends Behavior {
   constructor(settings = {}) {
     settings.name = 'Random Channel';
+    settings.description = 'Announces a different random public channel every morning';
 
     super(settings);
   }

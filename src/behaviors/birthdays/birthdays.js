@@ -8,6 +8,7 @@ const BIRTHDAY_MESSAGE = ':birthday: Happy birthday';
 class Birthdays extends Behavior {
   constructor(settings) {
     settings.name = 'Birthdays';
+    settings.description = 'Announces staff birthdays every morning';
     settings.sayInChannel = settings.sayInChannel.replace('#', '');
 
     super(settings);

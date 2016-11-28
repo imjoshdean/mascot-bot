@@ -3,6 +3,7 @@ import schedule from 'node-schedule';
 class Behavior {
   constructor(settings = {}) {
     this.name = settings.name || 'Behavior Name';
+    this.description = settings.description || '';
     this.jobs = [];
     this.commands = [];
 
