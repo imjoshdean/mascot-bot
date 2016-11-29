@@ -14,6 +14,11 @@ class KarmaBehavior extends Behavior {
       tag: 'explain',
       description: 'Displays the karma for the provided users (e.g. `!karma @beatz-bot`)'
     });
+
+    this.commands.push({
+      tag: 'list',
+      description: 'Displays the top or bottom 10 karma users (e.g. `!list top` or `!list bottom`'
+    });
   }
 
   initialize(bot) {
@@ -42,6 +47,48 @@ class KarmaBehavior extends Behavior {
   }
 
   execute(command, message, channel) {
+    switch (command) {
+    case 'explain':
+      this.giveKarma(message, channel);
+      break;
+    case 'list':
+      this.listKarma(message, channel);
+      break;
+    default:
+      break;
+    }
+  }
+
+  listKarma(message, channel) {
+    if (message.startsWith('!list top')) {
+      Karma.list('asc').then(karmaList => {
+        let karmaMessage = `The people with the most karma:\n\n`;
+
+        karmaList.forEach(karma => {
+          karmaMessage += `${karma.karma} <@${karma.entityName}>\n`;
+        });
+
+        this.bot.postMessage(channel, karmaMessage, {
+          icon_emoji: ':karma:'
+        });
+      });
+    }
+    else if (message.startsWith('!list bottom')) {
+      Karma.list('desc').then(karmaList => {
+        let karmaMessage = `The people with the least karma:\n\n`;
+
+        karmaList.forEach(karma => {
+          karmaMessage += `${karma.karma} <@${karma.entityName}>\n`;
+        });
+
+        this.bot.postMessage(channel, karmaMessage, {
+          icon_emoji: ':discentia:'
+        });
+      });
+    }
+  }
+
+  giveKarma(message, channel) {
     const [, userId] = USER_REGEX.exec(message);
 
     this.bot.users = undefined;
