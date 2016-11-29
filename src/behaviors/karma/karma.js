@@ -59,7 +59,7 @@ class KarmaBehavior extends Behavior {
 
           // If you wanna take karma away from yourself, who am I to stop you?
           if (userId === user.id) {
-            message = `¯\\_(ツ)_/¯ your funeral, <@${user.id}|${user.name}>. `;
+            message = `¯\\_(ツ)_/¯ it's your funeral, <@${user.id}|${user.name}>. `;
           }
           message += `<@${user.id}|${user.name}>'s karma has changed to ${karma.karma}.`;
 
