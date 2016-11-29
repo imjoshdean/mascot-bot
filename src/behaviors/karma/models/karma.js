@@ -30,6 +30,10 @@ const Karma = new mongoose.Schema({
   }]
 });
 
+Karma.virtual('entityName').get(function entityName() {
+  return this.entityId.split('|')[1];
+});
+
 Karma.static('findOrCreate', function findOrCreate(params) {
   return new Promise((resolve) => {
     this.findOne(params).then((karma) => {
@@ -89,6 +93,18 @@ Karma.method('sample', function sample(total = 5, type = 'positive') {
   return _.chain(this.reasons).filter({
     quality: type
   }).sampleSize(total).value();
+});
+
+Karma.static('list', function list(sortBy = 'asc', total = 10) {
+  if (sortBy !== 'asc' && sortBy !== 'desc') {
+    sortBy = 'asc';
+  }
+
+  return new Promise(resolve => {
+    this.find().then(karma => {
+      resolve(_.chain(karma).orderBy('karma', sortBy).take(total).value());
+    });
+  });
 });
 
 export default mongoose.model('karma', Karma);
