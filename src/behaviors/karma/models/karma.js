@@ -95,9 +95,9 @@ Karma.method('sample', function sample(total = 5, type = 'positive') {
   }).sampleSize(total).value();
 });
 
-Karma.static('list', function list(sortBy = 'asc', total = 10) {
+Karma.static('list', function list(sortBy = 'desc', total = 10) {
   if (sortBy !== 'asc' && sortBy !== 'desc') {
-    sortBy = 'asc';
+    sortBy = 'desc';
   }
 
   return new Promise(resolve => {

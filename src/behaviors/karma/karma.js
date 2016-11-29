@@ -61,7 +61,7 @@ class KarmaBehavior extends Behavior {
 
   listKarma(message, channel) {
     if (message.startsWith('!list top')) {
-      Karma.list('asc').then(karmaList => {
+      Karma.list('desc').then(karmaList => {
         let karmaMessage = `The people with the most karma:\n\n`;
 
         karmaList.forEach(karma => {
@@ -74,7 +74,7 @@ class KarmaBehavior extends Behavior {
       });
     }
     else if (message.startsWith('!list bottom')) {
-      Karma.list('desc').then(karmaList => {
+      Karma.list('asc').then(karmaList => {
         let karmaMessage = `The people with the least karma:\n\n`;
 
         karmaList.forEach(karma => {
