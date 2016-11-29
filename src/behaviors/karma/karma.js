@@ -28,6 +28,16 @@ class KarmaBehavior extends Behavior {
         const [, userId, type, reason] = USER_KARMA_REGEX.exec(messageData.text),
           channel = messageData.channel;
 
+        // Trying to give yourself karma? tsk tsk. Not gonna fly.
+        if (userId === messageData.user) {
+          if (type === '++') {
+            this.bot.postMessage(channel, `Aww, that's cute <@${messageData.user}>, thinking you can give yourself karma.`, {
+              icon_emoji: ':patpat:'
+            });
+            return;
+          }
+        }
+
         if (channel === BEATZ_ID) {
           this.bot.postMessage(channel, `Tut tut, <@${messageData.user}>, if you're going to give or take karma, do it in public.`, {
             icon_emoji: ':patpat:'
@@ -40,12 +50,20 @@ class KarmaBehavior extends Behavior {
             karma = data.karma,
             shouldIncrement = type === '++',
             method = shouldIncrement ? 'increment' : 'decrement';
+          let message = '';
 
           if (karma[method]) {
             karma[method](1, reason);
             karma.save();
           }
-          this.bot.postMessage(channel, `<@${user.id}|${user.name}>'s karma has changed to ${karma.karma}.`, {
+
+          // If you wanna take karma away from yourself, who am I to stop you?
+          if (userId === user.id) {
+            message = `¯\\_(ツ)_/¯ your funeral, <@${user.id}|${user.name}>. `;
+          }
+          message += `<@${user.id}|${user.name}>'s karma has changed to ${karma.karma}.`;
+
+          this.bot.postMessage(channel, message, {
             icon_emoji: shouldIncrement ? ':karma:' : ':discentia:'
           });
         });
