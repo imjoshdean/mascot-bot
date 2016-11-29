@@ -1,7 +1,7 @@
 import Behavior from '../behavior.js';
 import Karma from './models/karma.js';
 
-const USER_KARMA_REGEX = /^<@(\w+)>(\+\+|\-\-)(?:\s?#\s?((?:[\s\S])+))?/gi,
+const USER_KARMA_REGEX = /^<@(\w+)>(?:[\s\:]*)(\+\+|\-\-)(?:\s?#\s?((?:[\s\S])+))?/gi,
   USER_REGEX = /<@(\w+)>/gi;
 const BEATZ_ID = 'D2HRBHJ7R';
 
@@ -58,7 +58,7 @@ class KarmaBehavior extends Behavior {
           }
 
           // If you wanna take karma away from yourself, who am I to stop you?
-          if (userId === user.id) {
+          if (userId === messageData.user) {
             message = `¯\\_(ツ)_/¯ it's your funeral, <@${user.id}|${user.name}>. `;
           }
           message += `<@${user.id}|${user.name}>'s karma has changed to ${karma.karma}.`;
