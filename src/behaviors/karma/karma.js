@@ -3,6 +3,7 @@ import Karma from './models/karma.js';
 
 const USER_KARMA_REGEX = /^<@(\w+)>(\+\+|\-\-)(?:\s?#\s?((?:[\s\S])+))?/gi,
   USER_REGEX = /<@(\w+)>/gi;
+const BEATZ_ID = 'D2HRBHJ7R';
 
 class KarmaBehavior extends Behavior {
   constructor(settings) {
@@ -23,10 +24,16 @@ class KarmaBehavior extends Behavior {
 
   initialize(bot) {
     bot.on('message', messageData => {
-      this.bot.users = undefined;
       if (messageData.text && messageData.text.match(USER_KARMA_REGEX)) {
         const [, userId, type, reason] = USER_KARMA_REGEX.exec(messageData.text),
           channel = messageData.channel;
+
+        if (channel === BEATZ_ID) {
+          this.bot.postMessage(channel, `Tut tut, <@${messageData.user}>, if you're going to give or take karma, do it in public.`, {
+            icon_emoji: ':patpat:'
+          });
+          return;
+        }
 
         this._getKarmaAndUser(userId).then(data => {
           const user = data.user,
