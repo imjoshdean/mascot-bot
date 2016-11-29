@@ -3,7 +3,6 @@ import Karma from './models/karma.js';
 
 const USER_KARMA_REGEX = /^<@(\w+)>(?:[\s\:]*)(\+\+|\-\-)(?:\s?#\s?((?:[\s\S])+))?/gi,
   USER_REGEX = /<@(\w+)>/gi;
-const BEATZ_ID = 'D2HRBHJ7R';
 
 class KarmaBehavior extends Behavior {
   constructor(settings) {
@@ -23,52 +22,55 @@ class KarmaBehavior extends Behavior {
   }
 
   initialize(bot) {
-    bot.on('message', messageData => {
-      if (messageData.text && messageData.text.match(USER_KARMA_REGEX)) {
-        const [, userId, type, reason] = USER_KARMA_REGEX.exec(messageData.text),
-          channel = messageData.channel;
+    bot.on('message', this.parseKarmaMessage.bind(this));
+  }
 
-        // Trying to give yourself karma? tsk tsk. Not gonna fly.
-        if (userId === messageData.user) {
-          if (type === '++') {
-            this.bot.postMessage(channel, `Aww, that's cute <@${messageData.user}>, thinking you can give yourself karma.`, {
-              icon_emoji: ':patpat:'
-            });
-            return;
-          }
-        }
+  parseKarmaMessage(messageData) {
+    if (messageData.text && messageData.text.match(USER_KARMA_REGEX)) {
+      const [, userId, type, reason] = USER_KARMA_REGEX.exec(messageData.text),
+        channel = messageData.channel;
 
-        if (channel === BEATZ_ID) {
-          this.bot.postMessage(channel, `Tut tut, <@${messageData.user}>, if you're going to give or take karma, do it in public.`, {
+      // Trying to give yourself karma? tsk tsk. Not gonna fly.
+      if (userId === messageData.user) {
+        if (type === '++') {
+          this.bot.postMessage(channel, `Aww, that's cute <@${messageData.user}>, thinking you can give yourself karma.`, {
             icon_emoji: ':patpat:'
           });
           return;
         }
-
-        this._getKarmaAndUser(userId).then(data => {
-          const user = data.user,
-            karma = data.karma,
-            shouldIncrement = type === '++',
-            method = shouldIncrement ? 'increment' : 'decrement';
-          let message = '';
-
-          if (karma[method]) {
-            karma[method](1, reason);
-            karma.save();
-          }
-
-          // If you wanna take karma away from yourself, who am I to stop you?
-          if (userId === messageData.user) {
-            message = `¯\\_(ツ)_/¯ it's your funeral, <@${user.id}|${user.name}>. `;
-          }
-          message += `<@${user.id}|${user.name}>'s karma has changed to ${karma.karma}.`;
-
-          this.bot.postMessage(channel, message, {
-            icon_emoji: shouldIncrement ? ':karma:' : ':discentia:'
-          });
-        });
       }
-    });
+
+      // If you attempt to give karma in a direct message, we stop ya.
+      if (channel[0] === 'D') {
+        this.bot.postMessage(channel, `Tut tut, <@${messageData.user}>, if you're going to give or take karma, do it in public.`, {
+          icon_emoji: ':patpat:'
+        });
+        return;
+      }
+
+      this._getKarmaAndUser(userId).then(data => {
+        const user = data.user,
+          karma = data.karma,
+          shouldIncrement = type === '++',
+          method = shouldIncrement ? 'increment' : 'decrement';
+        let message = '';
+
+        if (karma[method]) {
+          karma[method](1, reason);
+          karma.save();
+        }
+
+        // If you wanna take karma away from yourself, who am I to stop you?
+        if (userId === messageData.user) {
+          message = `¯\\_(ツ)_/¯ it's your funeral, <@${user.id}|${user.name}>. `;
+        }
+        message += `<@${user.id}|${user.name}>'s karma has changed to ${karma.karma}.`;
+
+        this.bot.postMessage(channel, message, {
+          icon_emoji: shouldIncrement ? ':karma:' : ':discentia:'
+        });
+      });
+    }
   }
 
   execute(command, message, channel) {
