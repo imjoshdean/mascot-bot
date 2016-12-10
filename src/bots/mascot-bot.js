@@ -5,6 +5,45 @@ import mongoose from 'mongoose';
 mongoose.Promise = global.Promise;
 const COMMAND_REGEX = /^!(\S+)/g;
 
+/**
+ * @module {Class} MascotBot MascotBot
+ *
+ * @signature `new MascotBot(settings)`
+ * @param {Object} [settings = {}] MascotBot settings
+ */
+
+/**
+ * @module {Class} MascotBot.Settings Settings
+ * @property {String} [name = 'Mascot Bot']
+ *
+ * Name of the bot
+ *
+ * @property {String} token
+ *
+ * Slack API token utilized to connect to the service. If one is not provided,
+ * will attempt to use SLACK_TOKEN from the process
+ *
+ * @property {Boolean} useDatabase
+ *
+ * Whether or not we should use a Mongo Database
+ *
+ * @property {String} database
+ *
+ * Name of the database that should be used. If one is not provided, will attempt
+ * to use DATABASE_NAME from the process
+ *
+ * @property {Array<Behavior|Object>} behaviors
+ *
+ * Custom behaviors for our bot, can be either a Behavior constructor class on
+ * it's own or a custom object with the following signature:
+ *
+ * ```
+ * {
+ *   behavior: BehaviorClass, // Behavior constructor class
+ *   settings: Object         // Object of settings to be passed into the behavior
+ * }
+ * ```
+ */
 class MascotBot extends SlackBot {
   constructor(settings = {}) {
     const name = settings.name || 'Mascot Bot';
@@ -39,11 +78,25 @@ class MascotBot extends SlackBot {
     this._behaviorCommands = [];
   }
 
-  log(message, error) {
+  /**
+   * @function MascotBot.log log
+   * @parent MascotBot
+   * @param {String} message Message to log out.
+   * @param {Boolean} [error = false] Whether or not the log is an error.
+   * @description Launches the bot to be used, connecting to a provided database
+   * as well as initializes any behaviors provided to the bot.
+   */
+  log(message, error = false) {
     // eslint-disable-next-line no-console
     console[error ? 'error' : 'info'](message);
   }
 
+  /**
+   * @function MascotBot.launch launch
+   * @parent MascotBot
+   * @description Launches the bot to be used, connecting to a provided database
+   * as well as initializes any behaviors provided to the bot.
+   */
   launch() {
     this.on('start', () => {
       if (this.settings.useDatabase) {
@@ -85,6 +138,17 @@ class MascotBot extends SlackBot {
     });
   }
 
+  /**
+   * @function MascotBot.setTopic setTopic
+   * @parent MascotBot
+   * @param {String} channelId Identifier of the public channel or private group.
+   * @param {String} topic Topic message to set
+   * @param {String} [isPublicRoom = true] Whether or not the topic is being set
+   * to a public room or a private group
+   * @description Makes an API call to set the topic of either a public channel
+   * or private group.
+   * @return {Promise} A promise that resolves whether or not the API call was successful
+   */
   setTopic(channelId, topic, isPublicRoom = true) {
     const token = this.token,
       channel = channelId;
@@ -98,25 +162,6 @@ class MascotBot extends SlackBot {
       channel,
       topic
     });
-  }
-
-  say(personOrPlace = '', message = '', params = {}) {
-    if (!personOrPlace) {
-      this.log('personOrPlace required to say anything', true);
-    }
-
-    const identifier = personOrPlace.slice(0, 1),
-      sendee = personOrPlace.substring(1, personOrPlace.length),
-      error = `Unable to end message to ${sendee}, ` +
-        `unsure where to send it with the ${identifier} identifier`;
-
-    if (identifier !== '@' || identifier !== '#') {
-      return this.postTo(sendee, message, params);
-    }
-
-    this.log(error, true);
-
-    return Promise.reject(error);
   }
 
   _connectDatabase(database, options) {
