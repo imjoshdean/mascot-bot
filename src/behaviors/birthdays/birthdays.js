@@ -111,7 +111,7 @@ class Birthdays extends Behavior {
 
   giveKarma(bot, users, message = 'birthday karma') {
     users.forEach((user) => {
-      bot.postTo(this.settings.sayInChannel, `<@${user.id}|${user.name}>++ # ${message}`);
+      bot.postTo(this.settings.sayInChannel, `<@${user.id}>++ # ${message}`);
     });
   }
 
