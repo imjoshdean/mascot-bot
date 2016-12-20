@@ -74,6 +74,10 @@ class KarmaBehavior extends Behavior {
       });
     }
     else if (messageData.text && messageData.text.match(THING_REGEX)) {
+      if (messageData.text.includes('karma has changed to')) {
+        return;
+      }
+
       const [, thing, type, reason] = THING_REGEX.exec(messageData.text),
         channel = messageData.channel;
 
@@ -183,6 +187,7 @@ class KarmaBehavior extends Behavior {
   }
 
   _getKarmaAndThing(thing) {
+    // There are too many different kinds of double quotes...
     thing = thing.match(/^["|“|”]/) ? thing.slice(1, -1) : thing;
     const sanitized = thing.replace(' ', '_').replace(/\W/g, '').toLowerCase();
 
