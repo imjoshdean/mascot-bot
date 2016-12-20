@@ -2,7 +2,8 @@ import Behavior from '../behavior.js';
 import Karma from './models/karma.js';
 
 const USER_KARMA_REGEX = /<@(\w+)(?:\|\w+)?>(?:[\)s\:]*)(\+\+|\-\-)(?:\s?(?:#|\/\/)\s?((?:[\s\S])+))?/gi,
-  USER_REGEX = /<@(\w+)>/gi;
+  USER_REGEX = /<@(\w+)>/gi,
+  THING_REGEX = /((?:\w+)|["|“|”](?:[\s\S]+)["|“|”])(\+\+|\-\-)(?:\s?(?:#|\/\/)\s?((?:[\s\S])+))?/gi;
 
 class KarmaBehavior extends Behavior {
   constructor(settings) {
@@ -72,12 +73,35 @@ class KarmaBehavior extends Behavior {
         });
       });
     }
+    else if (messageData.text && messageData.text.match(THING_REGEX)) {
+      const [, thing, type, reason] = THING_REGEX.exec(messageData.text),
+        channel = messageData.channel;
+
+      this._getKarmaAndThing(thing).then(data => {
+        const thing = data.thing,
+          karma = data.karma,
+          shouldIncrement = type === '++',
+          method = shouldIncrement ? 'increment' : 'decrement';
+        let message = '';
+
+        if (karma[method]) {
+          karma[method](1, reason);
+          karma.save();
+        }
+
+        message += `${thing}'s karma has changed to ${karma.karma}.`;
+
+        this.bot.postMessage(channel, message, {
+          icon_emoji: shouldIncrement ? ':karma:' : ':discentia:'
+        });
+      });
+    }
   }
 
   execute(command, message, channel) {
     switch (command) {
     case 'explain':
-      this.giveKarma(message, channel);
+      this.getUserKarma(message, channel);
       break;
     case 'list':
       this.listKarma(message, channel);
@@ -116,7 +140,7 @@ class KarmaBehavior extends Behavior {
     }
   }
 
-  giveKarma(message, channel) {
+  getUserKarma(message, channel) {
     const [, userId] = USER_REGEX.exec(message);
 
     this.bot.users = undefined;
@@ -153,6 +177,23 @@ class KarmaBehavior extends Behavior {
             karma,
             user
           });
+        });
+      });
+    });
+  }
+
+  _getKarmaAndThing(thing) {
+    thing = thing.match(/^["|“|”]/) ? thing.slice(1, -1) : thing;
+    const sanitized = thing.replace(' ', '_').replace(/\W/g, '').toLowerCase();
+
+    return new Promise(resolve => {
+      Karma.findOrCreate({
+        entityId: `thing|${sanitized}`,
+        name: thing
+      }).then(karma => {
+        resolve({
+          karma,
+          thing
         });
       });
     });
