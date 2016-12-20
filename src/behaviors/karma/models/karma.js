@@ -9,6 +9,10 @@ const Karma = new mongoose.Schema({
     unique: true,
     required: true
   },
+  name: {
+    type: String,
+    default: '',
+  },
   karma: {
     type: Number,
     default: 0
