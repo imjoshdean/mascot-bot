@@ -8,8 +8,8 @@ class RollTheDice extends Behavior {
 
     this.commands.push({
       tag: 'rtd',
-      description: 'Rolls dice and outputs the results as well as the sum of those dice ' +
-        '(e.g. `!rtd 2d6` will output rolling two six sided dice)'
+      description: 'I\'ll roll some dice for you and add them up. Try `!rtd 2d6` to roll ' +
+        'two six sided dice or `!rtd 5d8` to roll five eight sided dice'
     });
   }
 

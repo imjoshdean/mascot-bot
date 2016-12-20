@@ -12,12 +12,13 @@ class KarmaBehavior extends Behavior {
 
     this.commands.push({
       tag: 'explain',
-      description: 'Displays the karma for the provided users (e.g. `!karma @beatz-bot`)'
+      description: 'I\'ll tell you about someone\'s karma and some reasons why '
+        + 'they have that much. Try `!karma @beatz-bot`'
     });
 
     this.commands.push({
       tag: 'list',
-      description: 'Displays the top or bottom 10 karma users (e.g. `!list top` or `!list bottom`'
+      description: 'I\'ll list the top 10 karma users when you say `!list top` and the bottom 10 when you say `!list bottom`'
     });
   }
 
