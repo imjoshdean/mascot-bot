@@ -8,6 +8,11 @@ class DaysUntil extends Behavior {
     settings.sayInChannel = settings.sayInChannel.replace('#', '');
 
     super(settings);
+
+    this.commands.push({
+      tag: 'countdown',
+      description: `I'll tell you how many more days until this year's BronyCon`
+    });
   }
 
   initialize(bot) {
@@ -23,6 +28,28 @@ class DaysUntil extends Behavior {
       today = moment();
 
     return conDate.diff(today, 'days') + 1;
+  }
+
+  execute(command, message, channel) {
+    const days = this.calculateDaysUntil();
+    let countdownMessage = '',
+      hour = Math.round((days / this.settings.maxDays) * 12);
+
+    // If we reach 0, it should be 12, since we're using clock emojis
+    hour = hour || 12;
+
+    if (days === 1) {
+      countdownMessage = '1 day until BronyCon';
+    }
+    else if (days > 1) {
+      countdownMessage = `${days} days until BronyCon`;
+    }
+
+    if (command === 'countdown') {
+      this.bot.postMessage(channel, `${countdownMessage} – clock is ticking!`, {
+        icon_emoji: `:clock${hour}:`
+      });
+    }
   }
 
   updateTopic(bot) {

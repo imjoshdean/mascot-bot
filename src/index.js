@@ -27,6 +27,7 @@ const name = process.env.NAME || 'Beatz Bot',
         behavior: DaysUntil,
         settings: {
           conDate: '8/11/2017',
+          maxDays: 398,
           sayInChannel: '#all-staff',
           isPublic: true
         }
