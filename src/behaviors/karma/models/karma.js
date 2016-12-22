@@ -9,6 +9,10 @@ const Karma = new mongoose.Schema({
     unique: true,
     required: true
   },
+  name: {
+    type: String,
+    default: '',
+  },
   karma: {
     type: Number,
     default: 0
@@ -33,6 +37,10 @@ const Karma = new mongoose.Schema({
 Karma.virtual('entityName').get(function entityName() {
   return this.entityId.split('|')[1];
 });
+
+Karma.static('stripQuotes', name => name.match(/^["|“|”]/) ? name.slice(1, -1) : name);
+
+Karma.static('sanitize', name => name.replace(' ', '_').replace(/\W/g, '').toLowerCase());
 
 Karma.static('findOrCreate', function findOrCreate(params) {
   return new Promise((resolve) => {
@@ -95,14 +103,24 @@ Karma.method('sample', function sample(total = 5, type = 'positive') {
   }).sampleSize(total).value();
 });
 
-Karma.static('list', function list(sortBy = 'desc', total = 10) {
+Karma.static('list', function list(sortBy = 'desc', total = 10, delimiter) {
   if (sortBy !== 'asc' && sortBy !== 'desc') {
     sortBy = 'desc';
   }
 
+  if (delimiter && delimiter !== 'person' && delimiter !== 'thing') {
+    delimiter = undefined;
+  }
+
   return new Promise(resolve => {
     this.find().then(karma => {
-      resolve(_.chain(karma).orderBy('karma', sortBy).take(total).value());
+      resolve(_.chain(karma).orderBy('karma', sortBy).filter(karmaItem => {
+        if (delimiter) {
+          return karmaItem.entityId.includes(delimiter);
+        }
+
+        return karmaItem;
+      }).take(total).value());
     });
   });
 });
