@@ -5,7 +5,6 @@ class EventBrite extends Behavior {
   constructor(settings = {}) {
     settings.name = 'Eventbrite';
     settings.description = '';
-    settings.sayInChannel = 'concom-2017';
 
     super(settings);
 
