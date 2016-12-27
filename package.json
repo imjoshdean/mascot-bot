@@ -53,6 +53,7 @@
     "lodash": "^4.16.4",
     "moment": "^2.15.1",
     "mongoose": "^4.6.5",
+    "node-eventbrite": "^0.0.13",
     "node-schedule": "^1.1.1",
     "slackbots": "^0.5.2"
   },
