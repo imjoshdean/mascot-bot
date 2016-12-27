@@ -1,7 +1,6 @@
 import Behavior from '../behavior.js';
 import authorize from './google-events';
 import google from 'googleapis';
-import credentials from './client.json';
 
 const BIRTHDAY_MESSAGE = ':birthday: Happy birthday';
 
@@ -12,18 +11,28 @@ class Birthdays extends Behavior {
     settings.sayInChannel = settings.sayInChannel.replace('#', '');
 
     super(settings);
+
+    this.commands.push({
+      tag: 'birthdays',
+      description: `I'll tell you whose birthday it is today`
+    });
   }
 
   initialize(bot) {
     super.initialize(bot);
     this.scheduleJob('0 15 * * *', () => {
       bot.users = undefined;
-      this.checkForBirthdays(bot);
+      this.checkForBirthdays(bot).then(users => {
+        this.announceBirthday(bot, users, false, this.settings.sayInChannel).then(() => {
+          this.updateTopic(bot, users);
+          this.giveKarma(bot, users);
+        });
+      });
     });
   }
 
   checkForBirthdays(bot) {
-    this.getBirthdays().then((birthdays) => {
+    return this.getBirthdays().then((birthdays) => {
       const today = new Date(),
         todaysBirthdays = birthdays[`${today.getMonth() + 1}/${today.getDate()}`],
         userPromises = [];
@@ -37,57 +46,77 @@ class Birthdays extends Behavior {
         userPromises.push(bot.getUser(person.slackName));
       });
 
-      Promise.all(userPromises).then((users) => {
-        users.forEach((user, index) => {
-          user.birthdayInfo = todaysBirthdays[index];
-        });
+      return Promise.all(userPromises).then((users) => {
+        return new Promise(resolve => {
+          users.forEach((user, index) => {
+            user.birthdayInfo = todaysBirthdays[index];
+          });
 
-        this.announceBirthday(bot, users).then(() => {
-          this.updateTopic(bot, users);
-          this.giveKarma(bot, users);
+          resolve(users);
         });
       });
     });
+  }
+
+  execute(command, message, channel) {
+    if(command === 'birthdays') {
+      this.bot.users = undefined;
+      this.checkForBirthdays(this.bot).then(users => {
+        this.announceBirthday(this.bot, users, true, channel);
+      });
+    }
   }
 
   getBirthdays() {
-    return new Promise((resolve) => {
-      authorize(credentials).then((auth) => {
-        const sheets = google.sheets('v4');
+    return new Promise((resolve, reject) => {
+      authorize(this.settings.credentials)
+        .then((auth) => {
+          const sheets = google.sheets('v4');
 
-        sheets.spreadsheets.values.get({
-          auth,
-          spreadsheetId: '1gNkOqGubDyI2oBCU9MzduS5sd_GK_MfS53sLRhZO_ns',
-          range: 'Form Responses 1!C2:E'
-        }, (err, response) => {
-          if (err) {
-            return;
-          }
-
-          const birthdays = {};
-
-          response.values.forEach((value) => {
-            const person = {
-              birthday: value[0],
-              year: value[1],
-              slackName: value[2].toLowerCase().replace('@', '')
-            };
-
-            if (birthdays[person.birthday]) {
-              birthdays[person.birthday].push(person);
+          sheets.spreadsheets.values.get({
+            auth,
+            ...this.settings.sheets
+          }, (err, response) => {
+            if (err) {
+              return;
             }
-            else {
-              birthdays[person.birthday] = [person];
-            }
+
+            const birthdays = {};
+
+            response.values.forEach((value) => {
+              const person = {
+                birthday: value[0],
+                year: value[1],
+                slackName: value[2].toLowerCase().replace('@', '')
+              };
+
+              if (birthdays[person.birthday]) {
+                birthdays[person.birthday].push(person);
+              }
+              else {
+                birthdays[person.birthday] = [person];
+              }
+            });
+            resolve(birthdays);
           });
-          resolve(birthdays);
+        })
+        .catch((err) => {
+          reject(err);
         });
-      });
     });
   }
 
-  announceBirthday(bot, users) {
+  announceBirthday(bot, users, announceNoBirthdays = false, channel) {
     let message = `Happy birthday to:`;
+
+    if (!users && announceNoBirthdays) {
+       return bot.postMessage(channel, `There are no birthdays today, check again tomorrow.`, {
+        icon_emoji: ':cake:'
+      });
+    }
+    else if (!users) {
+      return Promise.reject('No birthdays today');
+    }
 
     users.forEach((user, index) => {
       message += ` <@${user.id}|${user.name}>`;
@@ -104,14 +133,14 @@ class Birthdays extends Behavior {
       }
     });
 
-    return bot.postTo(this.settings.sayInChannel, message, {
+    return bot.postMessage(channel, message, {
       icon_emoji: ':cake:'
     });
   }
 
   giveKarma(bot, users, message = 'birthday karma') {
     users.forEach((user) => {
-      bot.postTo(this.settings.sayInChannel, `<@${user.id}>++ # ${message}`);
+      bot.postMessage(this.settings.sayInChannel, `<@${user.id}>++ # ${message}`);
     });
   }
 
