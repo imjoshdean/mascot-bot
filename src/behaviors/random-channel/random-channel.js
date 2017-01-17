@@ -36,7 +36,7 @@ class RandomChannel extends Behavior {
 
       do {
         randomChannel = data.channels[Math.floor(Math.random() * data.channels.length)];
-      } while (['all-staff', 'announcements'].includes(randomChannel.name));
+      } while (['all-staff', 'announcements'].includes(randomChannel.name) || randomChannel.name.startsWith('dept-'));
 
       const purposeless = '[no purpose set, but it\'s probably pretty good anyway]',
         checkIt = _sample(CHECK_IT_OUT),
@@ -47,7 +47,7 @@ class RandomChannel extends Behavior {
           `<#${randomChannel.id}|${randomChannel.name}>: ` +
           `${channelPurpose}${period} ${checkIt}`;
 
-      bot.say(this.settings.sayInChannel, randomChannelMessage, {
+      bot.postMessage(this.settings.sayInChannel, randomChannelMessage, {
         icon_emoji: ':slack:'
       });
     }, error => {
