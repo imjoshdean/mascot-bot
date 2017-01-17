@@ -165,7 +165,12 @@ class MascotBot extends SlackBot {
   }
 
   _connectDatabase(database, options) {
-    mongoose.connect(`mongodb://localhost/${database}`, options);
+    if (options.user) {
+      mongoose.connect(`mongodb://${options.user}:${options.password}@localhost/${database}`, options);
+    }
+    else {
+      mongoose.connect(`mongodb://localhost/${database}`, options);
+    }
   }
 
   _setupBehaviors() {
