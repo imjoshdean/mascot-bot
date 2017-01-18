@@ -115,10 +115,10 @@ class KarmaBehavior extends Behavior {
     }
   }
 
-  execute(command, message, channel) {
+  execute(command, message, channel, data) {
     switch (command) {
     case 'explain':
-      this.explainKarma(message, channel);
+      this.explainKarma(message, channel, data);
       break;
     case 'top':
       this.listKarma(message, channel, true);
@@ -154,12 +154,16 @@ class KarmaBehavior extends Behavior {
     });
   }
 
-  explainKarma(message, channel) {
-    const [, userId] = USER_REGEX.exec(message) || [];
+  explainKarma(message, channel, data) {
+    let [, userId] = USER_REGEX.exec(message) || [];
     const [, thing] = THING_REGEX.exec(message) || [];
 
     USER_REGEX.lastIndex = 0;
     THING_REGEX.lastIndex = 0;
+
+    if (message.trim() === '!explain') {
+      userId = data.user;
+    }
 
     if (userId) {
       this.bot.users = undefined;
