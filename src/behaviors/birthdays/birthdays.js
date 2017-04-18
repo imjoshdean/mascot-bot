@@ -85,9 +85,9 @@ class Birthdays extends Behavior {
 
             response.values.forEach((value) => {
               const person = {
-                birthday: value[0],
-                year: value[1],
-                slackName: value[2].toLowerCase().replace('@', '')
+                birthday: (value[0] || '').trim(),
+                year: (value[1] || '').trim(),
+                slackName: (value[2] || '').trim().toLowerCase().replace('@', '')
               };
 
               if (birthdays[person.birthday]) {
