@@ -58,11 +58,11 @@ class Birthdays extends Behavior {
     });
   }
 
-  execute(command, message, channel) {
+  execute(command, message, channel, messageData) {
     if(command === 'birthdays') {
       this.bot.users = undefined;
       this.checkForBirthdays(this.bot).then(users => {
-        this.announceBirthday(this.bot, users, true, channel);
+        this.announceBirthday(this.bot, users, true, channel, messageData);
       });
     }
   }
@@ -106,12 +106,13 @@ class Birthdays extends Behavior {
     });
   }
 
-  announceBirthday(bot, users, announceNoBirthdays = false, channel) {
+  announceBirthday(bot, users, announceNoBirthdays = false, channel, messageData) {
     let message = `Happy birthday to:`;
 
     if (!users && announceNoBirthdays) {
        return bot.postMessage(channel, `There are no birthdays today, check again tomorrow.`, {
-        icon_emoji: ':cake:'
+        icon_emoji: ':cake:',
+        thread_ts: messageData.thread_ts
       });
     }
     else if (!users) {
@@ -134,7 +135,8 @@ class Birthdays extends Behavior {
     });
 
     return bot.postMessage(channel, message, {
-      icon_emoji: ':cake:'
+      icon_emoji: ':cake:',
+      thread_ts: messageData.thread_ts
     });
   }
 

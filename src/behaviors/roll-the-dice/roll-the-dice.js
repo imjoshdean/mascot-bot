@@ -13,7 +13,7 @@ class RollTheDice extends Behavior {
     });
   }
 
-  execute(command, message, channel) {
+  execute(command, message, channel, data) {
     const roll = this.parseRoll(message),
       rolls = [];
     let results = '',
@@ -21,7 +21,8 @@ class RollTheDice extends Behavior {
 
     if (roll.number > 100 || roll.sides > 100) {
       this.bot.postMessage(channel, `Don't be a dick, no more than 100 dice or 100 sides`, {
-        icon_emoji: ':game_die:'
+        icon_emoji: ':game_die:',
+        thread_ts: data.thread_ts
       });
 
       roll.number = Math.min(100, roll.number);
@@ -38,7 +39,8 @@ class RollTheDice extends Behavior {
     results += ` (${sum})`;
 
     this.bot.postMessage(channel, `You rolled ${results}.`, {
-      icon_emoji: ':game_die:'
+      icon_emoji: ':game_die:',
+      thread_ts: data.thread_ts
     });
   }
 

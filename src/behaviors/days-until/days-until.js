@@ -30,7 +30,7 @@ class DaysUntil extends Behavior {
     return conDate.diff(today, 'days') + 1;
   }
 
-  execute(command, message, channel) {
+  execute(command, message, channel, messageData) {
     const days = this.calculateDaysUntil();
     let countdownMessage = '',
       hour = Math.round((days / this.settings.maxDays) * 12);
@@ -47,7 +47,8 @@ class DaysUntil extends Behavior {
 
     if (command === 'countdown') {
       this.bot.postMessage(channel, `${countdownMessage} – clock is ticking!`, {
-        icon_emoji: `:clock${hour}:`
+        icon_emoji: `:clock${hour}:`,
+        thread_ts: messageData.thread_ts
       });
     }
   }

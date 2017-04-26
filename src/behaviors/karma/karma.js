@@ -47,7 +47,8 @@ class KarmaBehavior extends Behavior {
       if (userId === messageData.user) {
         if (type === '++') {
           this.bot.postMessage(channel, `Aww, that's cute <@${messageData.user}>, thinking you can give yourself karma.`, {
-            icon_emoji: ':patpat:'
+            icon_emoji: ':patpat:',
+            thread_ts: messageData.thread_ts
           });
           return;
         }
@@ -56,7 +57,8 @@ class KarmaBehavior extends Behavior {
       // If you attempt to give karma in a direct message, we stop ya.
       if (channel[0] === 'D') {
         this.bot.postMessage(channel, `Tut tut, <@${messageData.user}>, if you're going to give or take karma, do it in public.`, {
-          icon_emoji: ':patpat:'
+          icon_emoji: ':patpat:',
+          thread_ts: messageData.thread_ts
         });
         return;
       }
@@ -80,7 +82,8 @@ class KarmaBehavior extends Behavior {
         message += `<@${user.id}|${user.name}>'s karma has changed to ${karma.karma}.`;
 
         this.bot.postMessage(channel, message, {
-          icon_emoji: shouldIncrement ? ':karma:' : ':discentia:'
+          icon_emoji: shouldIncrement ? ':karma:' : ':discentia:',
+          thread_ts: messageData.thread_ts
         });
       });
     }
@@ -109,29 +112,30 @@ class KarmaBehavior extends Behavior {
         message += `${thing}'s karma has changed to ${karma.karma}.`;
 
         this.bot.postMessage(channel, message, {
-          icon_emoji: shouldIncrement ? ':karma:' : ':discentia:'
+          icon_emoji: shouldIncrement ? ':karma:' : ':discentia:',
+          thread_ts: messageData.thread_ts
         });
       });
     }
   }
 
-  execute(command, message, channel, data) {
+  execute(command, message, channel, messageData) {
     switch (command) {
     case 'explain':
-      this.explainKarma(message, channel, data);
+      this.explainKarma(message, channel, messageData);
       break;
     case 'top':
-      this.listKarma(message, channel, true);
+      this.listKarma(message, channel, true, messageData);
       break;
     case 'bottom':
-      this.listKarma(message, channel, false);
+      this.listKarma(message, channel, false, messageData);
       break;
     default:
       break;
     }
   }
 
-  listKarma(message, channel, isTop = true) {
+  listKarma(message, channel, isTop = true, data) {
     const [, entity] = LIST_REGEX.exec(message) || [];
     let karmaMessage = `The ${entity ? `${entity}s` : 'people and things'} with the ${isTop ? 'most' : 'least'} karma:\n\n`;
 
@@ -149,12 +153,13 @@ class KarmaBehavior extends Behavior {
       });
 
       this.bot.postMessage(channel, karmaMessage, {
-        icon_emoji: `:${isTop ? 'karma' : 'discentia'}:`
+        icon_emoji: `:${isTop ? 'karma' : 'discentia'}:`,
+        thread_ts: data.thread_ts
       });
     });
   }
 
-  explainKarma(message, channel, data) {
+  explainKarma(message, channel, messageData) {
     let [, userId] = USER_REGEX.exec(message) || [];
     const [, thing] = THING_REGEX.exec(message) || [];
 
@@ -173,7 +178,7 @@ class KarmaBehavior extends Behavior {
           positive = karma.sample(5, 'positive').map(reason => reason.reason).join('; '),
           negative = karma.sample(5, 'negative').map(reason => reason.reason).join('; ');
 
-        this._postKarma(channel, `<@${user.id}|${user.name}>`, karma, positive, negative);
+        this._postKarma(channel, `<@${user.id}|${user.name}>`, karma, positive, negative, messageData);
       });
     }
     else if (thing) {
@@ -183,12 +188,12 @@ class KarmaBehavior extends Behavior {
           positive = karma.sample(5, 'positive').map(reason => reason.reason).join('; '),
           negative = karma.sample(5, 'negative').map(reason => reason.reason).join('; ');
 
-        this._postKarma(channel, `"${thing}"`, karma, positive, negative);
+        this._postKarma(channel, `"${thing}"`, karma, positive, negative, messageData);
       });
     }
   }
 
-  _postKarma(channel, thing, karma, positive, negative) {
+  _postKarma(channel, thing, karma, positive, negative, messageData) {
     let karmaMessage = `${thing} has ${karma.karma} karma. The highest it's ` +
       `ever been was ${karma.highest} and the lowest it's ever been was ${karma.lowest}.\n\n`;
 
@@ -201,7 +206,8 @@ class KarmaBehavior extends Behavior {
     }
 
     this.bot.postMessage(channel, karmaMessage, {
-      icon_emoji: ':karma:'
+      icon_emoji: ':karma:',
+      thread_ts: messageData.thread_ts
     });
   }
 
