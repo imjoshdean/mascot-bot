@@ -167,7 +167,7 @@ class KarmaBehavior extends Behavior {
     THING_REGEX.lastIndex = 0;
 
     if (message.toLowerCase().trim() === '!explain') {
-      userId = data.user;
+      userId = messageData.user;
     }
 
     if (userId) {
