@@ -1,9 +1,9 @@
 import Behavior from '../behavior.js';
 import Karma from './models/karma.js';
 
-const USER_KARMA_REGEX = /<@(\w+)(?:\|\w+)?>(?:[\s\:]*)(\+\+|\-\-)(?:\s?(?:#|\/\/)\s?((?:[\s\S])+))?/gi,
+const USER_KARMA_REGEX = /<@(\w+)(?:\|\w+)?>(?:[\s\:]*)(\+\+|\-\-)(?:\s+|$)(?:(?:#|\/\/)\s?((?:[\s\S])+))?/gi,
   USER_REGEX = /<@(\w+)>/gi,
-  THING_KARMA_REGEX = /((?:\w+)|["|“|”](?:[\s\S]+)["|“|”])(\+\+|\-\-)(?:\s?(?:#|\/\/)\s?((?:[\s\S])+))?/gi,
+  THING_KARMA_REGEX = /((?:\w+)|["|“|”](?:[\s\S]+)["|“|”])(\+\+|\-\-)(?:\s+|$)(?:(?:#|\/\/)\s?((?:[\s\S])+))?/gi,
   THING_REGEX = /!explain ((?:\w+)|["|“|”](?:[\s\S]+)["|“|”])/gi,
   LIST_REGEX = /^!(?:top|bottom) (thing|person)/gi;
 
