@@ -6,12 +6,14 @@ import RollTheDice from './behaviors/roll-the-dice/roll-the-dice.js';
 import Birthdays from './behaviors/birthdays/birthdays.js';
 import Karma from './behaviors/karma/karma.js';
 import Eventbrite from './behaviors/eventbrite/eventbrite.js';
+import Clap from './behaviors/clap/clap.js';
 import settings from './settings.json';
 
 
 const beatzBot = new MascotBot({
   ...settings.bot,
   behaviors: [
+    Clap,
     ExplainBehaviors,
     {
       behavior: Birthdays,
