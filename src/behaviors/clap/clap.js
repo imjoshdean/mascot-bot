@@ -24,7 +24,9 @@ class RollTheDice extends Behavior {
   parseMessage(message) {
     let splitMessage = message.replace(/^!clap/gi, '').replace(/\s+/g, ' ').trim().split(' ');
 
-    if (splitMessage.length === 1) {
+    const emojiRegex = /^:.*:$/;
+
+    if (splitMessage.length === 1 && !emojiRegex.test(splitMessage)) {
       splitMessage = splitMessage[0].split('');
     }
 
