@@ -22,7 +22,13 @@ class RollTheDice extends Behavior {
   }
 
   parseMessage(message) {
-    return message.replace(/^!clap/gi, '').replace(/\s+/g, " ").trim().split(' ')
+    let splitMessage = message.replace(/^!clap/gi, '').replace(/\s+/g, ' ').trim().split(' ');
+
+    if (splitMessage.length === 1) {
+      splitMessage = splitMessage[0].split('');
+    }
+
+    return splitMessage;
   }
 }
 
