@@ -75,8 +75,8 @@ class DaysUntil extends Behavior {
     }
 
     if (message) {
-      this.bot.postMessage(channel, `${days} ${message}`, {
-        icon_emoji: ':full_moon_with_face:'
+      this.bot.postMessage(channel, `${message}`, {
+        icon_emoji: ':majoras_mask_bw:'
       });
     }
   }
