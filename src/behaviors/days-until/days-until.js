@@ -50,6 +50,34 @@ class DaysUntil extends Behavior {
         icon_emoji: `:clock${hour}:`,
         thread_ts: messageData.thread_ts
       });
+
+      this.postMajora(days, channel);
+    }
+  }
+
+  // You've met with a terrible fate, haven't you?
+  postMajora(days, channel) {
+    let message = '';
+
+    switch (days) {
+      case 1:
+        message = 'https://i.imgur.com/QcbijZg.png';
+        break;
+      case 2:
+        message = 'https://i.imgur.com/bBvBH9P.png';
+        break;
+      case 3:
+        message = 'https://i.imgur.com/uYCofpx.png';
+        break;
+      default:
+        message = '';
+        break;
+    }
+
+    if (message) {
+      this.bot.postMessage(channel, `${days} ${message}`, {
+        icon_emoji: ':full_moon_with_face:'
+      });
     }
   }
 
@@ -73,6 +101,8 @@ class DaysUntil extends Behavior {
       }
 
       topic = topic.replace(/\d+ days? until BronyCon!/gi, message);
+
+      this.postMajora(days, channel.id);
 
       bot._api(topicFunction, {
         token: bot.token,
