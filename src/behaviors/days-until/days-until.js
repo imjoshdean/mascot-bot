@@ -61,13 +61,13 @@ class DaysUntil extends Behavior {
 
     switch (days) {
       case 1:
-        message = 'https://i.imgur.com/QcbijZg.png';
+        message = 'https://i.imgur.com/eleo2q6.png';
         break;
       case 2:
-        message = 'https://i.imgur.com/bBvBH9P.png';
+        message = 'https://i.imgur.com/mXzrU6d.png';
         break;
       case 3:
-        message = 'https://i.imgur.com/uYCofpx.png';
+        message = 'https://i.imgur.com/IhLCQcu.png';
         break;
       default:
         message = '';
