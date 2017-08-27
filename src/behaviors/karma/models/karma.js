@@ -40,7 +40,7 @@ Karma.virtual('entityName').get(function entityName() {
 
 Karma.static('stripQuotes', name => name.match(/^["|“|”]/) ? name.slice(1, -1) : name);
 
-Karma.static('sanitize', name => name.replace(' ', '_').replace(/\W/g, '').toLowerCase());
+Karma.static('sanitize', name => escape(name.replace(' ', '_')).replace(/\W/g, '').toLowerCase());
 
 Karma.static('findOrCreate', function findOrCreate(params) {
   return new Promise((resolve) => {
