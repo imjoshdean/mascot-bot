@@ -11,8 +11,8 @@ Mascot Bot is the future BronyCon Slack assistant currently under development. D
 ## Installing
 
 ```node
-git clone git@github.com:imjoshdean/beatz-bot.git
-cd beatz-bot
+git clone git@github.com:imjoshdean/mascot-bot.git
+cd mascot-bot
 yarn // npm install if you aren't using yarn yet
 ```
 

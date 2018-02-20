@@ -10,7 +10,7 @@ import Clap from './behaviors/clap/clap.js';
 import settings from './settings.json';
 
 
-const beatzBot = new MascotBot({
+const mascot = new MascotBot({
   ...settings.bot,
   behaviors: [
     Clap,
@@ -43,4 +43,4 @@ const beatzBot = new MascotBot({
   ]
 });
 
-beatzBot.launch();
+mascot.launch();
