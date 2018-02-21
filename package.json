@@ -48,6 +48,8 @@
     "rimraf": "^2.5.2"
   },
   "dependencies": {
+    "airtable": "^0.5.2",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
     "google-auth-library": "^0.10.0",
     "googleapis": "^16.1.0",
     "lodash": "^4.16.4",
