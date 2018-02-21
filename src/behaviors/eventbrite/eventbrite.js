@@ -29,6 +29,14 @@ class EventBrite extends Behavior {
   }
 
   execute(command, message, channel, messageData) {
+
+    this.bot.postMessage(channel, `Sorry guys, no peaking until closing ceremonies!`, {
+      icon_emoji: `:zipper_mouth_face:`,
+      thread_ts: messageData.thread_ts
+    });
+ 
+    return;
+
     this.client.get('events', `${this.settings.event_id}/ticket_classes`, [], [], (err, response) => {
       if (!err) {
         const tickets = response.ticket_classes.map(type => {
