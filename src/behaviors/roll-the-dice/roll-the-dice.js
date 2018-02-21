@@ -50,8 +50,8 @@ execute(command, message, channel, data) {
     let results = '',
       sum = 0;
 
-    if (roll.number > 0 || roll.sides > 0) {
-      this.bot.postMessage(channel, `Please enter number of dice being rolled and Number of Sides like "!rtd 1d5)`, {
+    if (roll.number < 1 || roll.sides < 1) {
+      this.bot.postMessage(channel, `(Please enter number of dice being rolled and Number of Sides like "!rtd 1d5)`, {
         icon_emoji: ':game_die:',
         thread_ts: data.thread_ts
       });
