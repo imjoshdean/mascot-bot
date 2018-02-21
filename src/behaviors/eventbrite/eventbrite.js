@@ -30,7 +30,7 @@ class EventBrite extends Behavior {
 
   execute(command, message, channel, messageData) {
 
-   this.bot.postMessage(channel, `Sorry guys, I'm good at dropping beatz, not numbers.. I'll look around for you though okay? Here's a picture! https://derpibooru.org/1585081?q=soon%2Csafe`, {
+   this.bot.postMessage(channel, `Sorry guys, I'm good at dropping beatz, not numbers.. I'll look around for you though okay? Here's a picture! https://goo.gl/DWWqs4`, {
       icon_emoji: `:hoof_beatz:`,
       thread_ts: messageData.thread_ts
     });
