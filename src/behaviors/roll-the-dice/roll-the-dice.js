@@ -23,6 +23,12 @@ class RollTheDice extends Behavior {
       this.bot.postMessage(channel, `Don't be a dick, no more than 100 dice or 100 sides`, {
         icon_emoji: ':game_die:',
         thread_ts: data.thread_ts
+
+   if (roll.number > 0 || roll.sides > 0) {
+      this.bot.postMessage(channel, `please specify the Number of side and number of dice, Example (!rtd 1d10)`, {
+        icon_emoji: ':game_die:',
+        thread_ts: data.thread_ts
+
       });
 
       roll.number = Math.min(100, roll.number);
