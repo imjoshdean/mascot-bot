@@ -12,7 +12,7 @@ describe('Array', () => {
 });
 
 describe('Coverage', () => {
-  it('should test the one exported function', () => {
+  it('should test the 1 exported function', () => {
     fn.addition(2, 3).should.equal(5);
   });
 });
