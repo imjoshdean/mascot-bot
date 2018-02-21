@@ -44,6 +44,37 @@ class RollTheDice extends Behavior {
     });
   }
 
+execute(command, message, channel, data) {
+    const roll = this.parseRoll(message),
+      rolls = [];
+    let results = '',
+      sum = 0;
+
+    if (roll.number > 0 || roll.sides > 0) {
+      this.bot.postMessage(channel, `Please enter number of dice being rolled and Number of Sides like "!rtd 1d5)`, {
+        icon_emoji: ':game_die:',
+        thread_ts: data.thread_ts
+      });
+
+      roll.number = Math.min(1, roll.number);
+      roll.sides = Math.min(5, roll.sides);
+    }
+
+    for (let i = 0; i < roll.number; i++) {
+      rolls.push(Math.ceil(Math.random() * roll.sides));
+    }
+
+    results = rolls.join(', ');
+
+    sum = rolls.reduce((a, b) => a + b);
+    results += ` (${sum})`;
+
+    this.bot.postMessage(channel, `You rolled ${results}.`, {
+      icon_emoji: ':game_die:',
+      thread_ts: data.thread_ts
+    });
+  }
+
   parseRoll(text) {
     const matchExp = /(\d+)[d|D](\d+)/;
 
