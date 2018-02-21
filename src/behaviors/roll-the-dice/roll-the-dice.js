@@ -19,7 +19,7 @@ class RollTheDice extends Behavior {
     let results = '',
       sum = 0;
 
-    if (roll.number > 100 || roll.sides > 100) {
+    if (roll.number > "100" || roll.sides > "100") {
       this.bot.postMessage(channel, `Don't be a dick, no more than 100 dice or 100 sides`, {
         icon_emoji: ':game_die:',
         thread_ts: data.thread_ts
@@ -50,7 +50,7 @@ execute(command, message, channel, data) {
     let results = '',
       sum = 0;
 
-    if (roll.number < 1 || roll.sides < 1) {
+    if (roll.number < "1" || roll.sides < "1") {
       this.bot.postMessage(channel, `(Please enter number of dice being rolled and Number of Sides like "!rtd 1d5)`, {
         icon_emoji: ':game_die:',
         thread_ts: data.thread_ts
