@@ -31,7 +31,7 @@ class EventBrite extends Behavior {
   execute(command, message, channel, messageData) {
 
     this.bot.postMessage(channel, `Sorry guys, no peaking until closing ceremonies!`, {
-      icon_emoji: `:zipper_mouth_face:`,
+      icon_emoji: `:hoof_beatz:`,
       thread_ts: messageData.thread_ts
     });
  
