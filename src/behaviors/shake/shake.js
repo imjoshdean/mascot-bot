@@ -1,6 +1,5 @@
 import Behavior from '../behavior.js';
-
-class Shake extends Behavior {
+class RollTheDice extends Behavior {
   constructor(settings) {
     settings.name = 'Shake text';
     settings.description = `'cause sometimes Capslock doesn't do it!`;
@@ -15,18 +14,14 @@ class Shake extends Behavior {
   execute(command, message, channel, data) {
     const parsedMessage = this.parseMessage(message);
 
-    this.bot.postMessage(channel, `${parsedMessage.join(' :sh-h::sh-i: ')} :sh-h::sh-i:`, {
-      icon_emoji: ':shake-hoof-beatz:',
+    this.bot.postMessage(channel, `${parsedMessage.join(' :sh-o::sh-h::sh-n::sh-n: ')} :sh-o::sh-h::sh-n::sh-n:`, {
+      icon_emoji: ':clap:',
       thread_ts: data.thread_ts
     });
   }
 
-  splitString(stringToSplit, seperator) {
-    let arrayOfstrings = stringToSplit.split(':blank:');
-	console.log('The original sting is:'$parseMessage');
-	console.log('The separator is: "':blank:'");
-  }
-	
+  parseMessage(message) {
+    let splitMessage = message.replace(/^!clap/gi, '').replace(/\s+/g, ' ').trim().split(' ');
 
     const emojiRegex = /^:.*:$/;
 
@@ -38,4 +33,4 @@ class Shake extends Behavior {
   }
 }
 
-export default Shake;
+export default RollTheDice;
