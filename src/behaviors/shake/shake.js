@@ -1,5 +1,5 @@
 import Behavior from '../behavior.js';
-class RollTheDive extends Behavior {
+class RollTheDice extends Behavior {
   constructor(settings) {
     settings.name = 'shake';
     settings.description = `'cause sometimes Capslock doesn't do it!`;
