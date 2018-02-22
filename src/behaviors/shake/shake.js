@@ -1,7 +1,7 @@
 import Behavior from '../behavior.js';
-class RollTheDice extends Behavior {
+class shake extends Behavior {
   constructor(settings) {
-    settings.name = 'Shake text';
+    settings.name = 'shake';
     settings.description = `'cause sometimes Capslock doesn't do it!`;
     super(settings);
 
@@ -33,4 +33,4 @@ class RollTheDice extends Behavior {
   }
 }
 
-export default RollTheDice;
+export default shake;
