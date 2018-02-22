@@ -16,7 +16,7 @@ const mascot = new MascotBot({
   behaviors: [
     Greet,
     {
-      Behaviors: Greet Behavior,
+      Behaviors: GreetBehavior,
       
     }
     Clap,
