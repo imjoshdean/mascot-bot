@@ -1,13 +1,13 @@
 import Behavior from '../behavior.js';
 
-class RollTheDice extends Behavior {
+class Shake extends Behavior {
   constructor(settings) {
     settings.name = 'Shake text';
     settings.description = `'cause sometimes Capslock doesn't do it!`;
     super(settings);
 
     this.commands.push({
-      tag: 'clap',
+      tag: 'shake',
       description: `I'll :sh-s::sh-h::sh-a::sh-k::sh-e::blank::sh-y::sh-o::sh-u::sh-r::blank::sh-t::sh-e::sh-x::sh-t:*!*`
     });
   }
@@ -22,7 +22,11 @@ class RollTheDice extends Behavior {
   }
 
   splitString(stringToSplit, seperator) {
-    let arrayOfstrings = stringToSplit.split(/^!clap/gi, '').replace(/\s+/g, ' ').trim().split(':blank:');
+    let arrayOfstrings = stringToSplit.split(':blank:');
+	console.log('The original sting is:'<$parseMessage>');
+	console.log('The separator is: "':blank:'");
+  }
+	
 
     const emojiRegex = /^:.*:$/;
 
@@ -34,4 +38,4 @@ class RollTheDice extends Behavior {
   }
 }
 
-export default RollTheDice;
+export default Shake;
