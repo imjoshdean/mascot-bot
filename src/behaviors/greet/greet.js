@@ -13,7 +13,7 @@ export default class GreetBehavior extends Behavior {
     switch (command) {
     case 'hello':
       this.bot.postMessage(channel, `Yo, What's goin on! Enjoyin' Slack? <@${data.user}>!`, {
-        icon_emoji: ':Hoof_beatz:'
+        icon_emoji: ':grissgif_fast:'
       });
       break;
     default:
