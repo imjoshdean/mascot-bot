@@ -16,7 +16,7 @@ class RollTheDice extends Behavior {
   execute(command, message, channel, data) {
     const parsedMessage = this.parseMessage(message);
 
-    this.bot.postMessage(channel, `${parsedMessage.join(' :sh-o: ')} :blank:`, {
+    this.bot.postMessage(channel, `${parsedMessage.join(' :blank: ')} :blank:`, {
       icon_emoji: ':clap:',
       thread_ts: data.thread_ts
     });
