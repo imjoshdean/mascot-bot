@@ -6,7 +6,7 @@ export default class GreetBehavior extends Behavior {
 
     super(settings);
 
-    this.addCommand('hello', 'Say hello back whenever someone types !hello');
+    this.addCommand('hello', 'Say !hello and I\'ll say hi back!');
   }
 
   execute(command, message, channel, data) {
