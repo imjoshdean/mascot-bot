@@ -14,8 +14,8 @@ class shake extends Behavior {
   execute(command, message, channel, data) {
     const parsedMessage = this.parseMessage(message);
 
-    this.bot.postMessage(channel, `${parsedMessage.join(' :sh-o::sh-h::sh-n::sh-n: ')} :sh-o::sh-h::sh-n::sh-n:`, {
-      icon_emoji: ':clap:',
+    this.bot.postMessage(channel, `${parsedMessage.join(' :sh-o: ')} :blank:`, {
+      icon_emoji: ':blank:',
       thread_ts: data.thread_ts
     });
   }
