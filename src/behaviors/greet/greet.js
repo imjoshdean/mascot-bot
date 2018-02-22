@@ -2,7 +2,7 @@ import Behavior from '../behavior.js';
 
 export default class GreetBehavior extends Behavior {
   constructor(settings = {}) {
-    settings.name = 'Greet Behavior';
+    settings.name = 'GreetBehavior';
 
     super(settings);
 
