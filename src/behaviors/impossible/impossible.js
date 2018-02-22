@@ -6,7 +6,7 @@ export default class GreetBehavior extends Behavior {
 
     super(settings);
 
-    this.addCommand('dotheimpossible', 'JUST WHO THE :sh-h::sh-e:sh-l::sh-l: *DO YOU THINK I AM?!*');
+    this.addCommand('dotheimpossible', 'JUST WHO THE :sh-h::sh-e::sh-l::sh-l: *DO YOU THINK I AM?!*');
   }
 
   execute(command, message, channel, data) {
