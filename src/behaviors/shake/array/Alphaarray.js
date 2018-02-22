@@ -1,4 +1,4 @@
-var alpha = [
+var alpha = [a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z]; console.log(a[0]);
     {name: "a", emoji: ":sh-a:"}
     {name: "b", emoji: ":sh-b:"}
     {name: "c", emoji: ":sh-c:"}
@@ -32,5 +32,5 @@ var alphaEmoji = alpha.map(function(x){
 
 });
 
-console.log(alphaEmoji[y])
+console.log(alphaEmoji[a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z])
  
