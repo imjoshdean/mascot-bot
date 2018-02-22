@@ -7,12 +7,14 @@ import Birthdays from './behaviors/birthdays/birthdays.js';
 import Karma from './behaviors/karma/karma.js';
 import Eventbrite from './behaviors/eventbrite/eventbrite.js';
 import Clap from './behaviors/clap/clap.js';
+import Greet from './behaviors/greet/greet.js';
 import settings from './settings.json';
 
 
 const mascot = new MascotBot({
   ...settings.bot,
   behaviors: [
+    Greet,
     Clap,
     ExplainBehaviors,
     {
