@@ -15,10 +15,6 @@ const mascot = new MascotBot({
   ...settings.bot,
   behaviors: [
     Greet,
-    {
-      Behaviors: GreetBehavior,
-      
-    },
     Clap,
     ExplainBehaviors,
     {
