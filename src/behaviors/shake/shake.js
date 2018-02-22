@@ -23,7 +23,7 @@ class Shake extends Behavior {
 
   splitString(stringToSplit, seperator) {
     let arrayOfstrings = stringToSplit.split(':blank:');
-	console.log('The original sting is:'<$parseMessage>');
+	console.log('The original sting is:'$parseMessage');
 	console.log('The separator is: "':blank:'");
   }
 	
