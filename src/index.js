@@ -10,6 +10,7 @@ import Clap from './behaviors/clap/clap.js';
 import Greet from './behaviors/greet/greet.js';
 import Impossible from './behaviors/impossible/impossible.js';
 import Shake from './behaviors/shake/shake.js';
+import Introductions from './behaviors/introductions/introductions.js';
 import settings from './settings.json';
 
 
