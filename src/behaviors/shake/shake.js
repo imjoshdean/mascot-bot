@@ -16,22 +16,21 @@ class RollTheDice extends Behavior {
   execute(command, message, channel, data) {
     const parsedMessage = this.parseMessage(message);
 
-    this.bot.postMessage(channel, `${parsedMessage.join(' :blank: ')} :blank:`, {
-      icon_emoji: ':clap:',
+    this.bot.postMessage(channel, `${parsedMessage.join('')}`, {
+      icon_emoji: ':shakehoof_beatz:',
       thread_ts: data.thread_ts
     });
   }
 
   parseMessage(message) {
-    let splitMessage = message.replace(/^!shake/gi, '').replace(/\s+/g, ' ').trim().split(' ');
+   let splitMessage = text.replace(/^!shake/gi, '')
+		.replace(/[^a-zA-Z ]/g, '')
+		.trim()
+		.split('');
 
-    const emojiRegex = /^:.*:$/;
+const parsedMessage = splitMessage.map(alpha => alpha == " " ? ":ws:" : ":sh-" + alpha + ":");
 
-    if (splitMessage.length === 1 && !emojiRegex.test(splitMessage)) {
-      splitMessage = splitMessage[0].split('');
-    }
-
-    return splitMessage;
+    return parsedMessage;
   }
 }
 
