@@ -1,6 +1,6 @@
 import Behavior from '../behavior.js';
 
-class RollTheDice extends Behavior {
+class TheClap extends Behavior {
   constructor(settings) {
     settings.name = 'Clap Hype';
     settings.description = `'cause 👏 sometimes 👏 you 👏 need 👏 emphasis!`;
@@ -34,4 +34,4 @@ class RollTheDice extends Behavior {
   }
 }
 
-export default RollTheDice;
+export default TheClap;
