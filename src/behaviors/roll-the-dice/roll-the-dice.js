@@ -20,7 +20,7 @@ class RollTheDice extends Behavior {
       sum = 0;
 
     if (roll.number > 100 || roll.sides > 100) {
-      this.bot.postMessage(channel, `Don't be a dick, no more than 100 dice or 100 sides`, {
+      this.bot.postMessage(channel, `You rolled a Natural 1!, Don't roll more than 100 dice or si`, {
         icon_emoji: ':game_die:',
         thread_ts: data.thread_ts
       });
@@ -45,10 +45,11 @@ class RollTheDice extends Behavior {
   }
 
   parseRoll(text) {
-    const matchExp = /(\d+)[d|D](\d+)/;
+    const matchExp = /(\d+)[dD](\d+)/;
 
-    if (text.match(matchExp).length > 1) {
+    if (text.match(matchExp)){
       let [,number, sides] = text.match(matchExp);
+	  
 
       number = +number;
       sides = +sides;
