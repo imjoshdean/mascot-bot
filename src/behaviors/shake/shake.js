@@ -33,7 +33,7 @@ class ShakeText extends Behavior {
 		.trim()
 		.split('');
 	  if( splitMessage.length > 20) {
-		 this.bot.postMessage(channel, "Listen, I understand your upset. But I can't do that! Try to type something smaller okay?~", {
+		 this.bot.postMessage(channel, "Listen, I understand you're upset. But I can't do that! Try to type something smaller okay?~", {
       			icon_emoji: ':hoof_beatz:',
       			thread_ts: data.thread_ts
 		 });
