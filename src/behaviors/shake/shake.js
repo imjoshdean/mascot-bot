@@ -9,7 +9,7 @@ class RollTheDice extends Behavior {
 
     this.commands.push({
       tag: 'shake',
-      description: `I'll :sh-s::sh-h::sh-a::sh-k::sh-e::blank::sh-y::sh-o::sh-u::sh-r::blank::sh-t::sh-e::sh-x::sh-t:*!*`
+      description: `I'll shake your text, cause sometimes Capslock doesn't do it!`
     });
   }
 
