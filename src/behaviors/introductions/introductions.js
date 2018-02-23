@@ -12,7 +12,7 @@ class Introductions extends Behavior {
     super.initialize(bot);
     let promise = Promise.resolve();
 
-    Promise.all([bot.getUser('chibishibe').then((users) => {
+    Promise.all([bot.getUser('chibishibe')]).then((users) => {
       const [chibishibe] = users,
         chibishibeTag = `<@${chibishibe.id}|${chibishibe.name}>`;
 
