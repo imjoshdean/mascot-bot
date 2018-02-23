@@ -2,12 +2,12 @@
   "messages": [{
     "text": "Hi there, I'm Beatz Bot, BronyCon's Slack assistant!",
     "options": {
-      "icon_emoji": ":wave:"
+      "Hoof_beatz": ":wave:"
     }
   }, {
     "text": ":hoof_beatz: :heavy_plus_sign: :robot_face: :heavy_plus_sign: :heart:"
   }, {
-    "text": "I'm currently in development by @imjoshdean and @sheva. I can't do much just yet, I only update the chat topic and share random BronyCon channels you should visit."
+    "text": "I'm currently in development by @chibishibe. I can't do much just yet, I only update the chat topic and share random BronyCon channels you should visit."
   }, {
     "text": "Wanna help make me better? Check out my source and help! https://github.com/imjoshdean/beatz-bot",
     "options": {
