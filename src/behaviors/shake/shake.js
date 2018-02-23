@@ -1,6 +1,6 @@
 import Behavior from '../behavior.js';
 
-class RollTheDice extends Behavior {
+class ShakeText extends Behavior {
 
   constructor(settings) {
     settings.name = 'shake';
@@ -35,4 +35,4 @@ const parsedMessage = splitMessage.map(alpha => alpha == " " ? ":ws:" : ":sh-" +
   }
 }
 
-export default RollTheDice;
+export default ShakeText;
