@@ -23,7 +23,7 @@ class RollTheDice extends Behavior {
   }
 
   parseMessage(message) {
-   let splitMessage = text.replace(/^!shake/gi, '')
+   let splitMessage = message.replace(/^!shake/gi, '')
 		.replace(/[^a-zA-Z ]/g, '')
 		.trim()
 		.split('');
