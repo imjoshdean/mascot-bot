@@ -15,7 +15,11 @@ class ShakeText extends Behavior {
 
   execute(command, message, channel, data) {
     const parsedMessage = this.parseMessage(message);
-
+	if( parsedMessage == undefined) {
+	
+	return
+	}
+	  
     this.bot.postMessage(channel, `${parsedMessage.join('')}`, {
       icon_emoji: ':shakehoof_beatz:',
       thread_ts: data.thread_ts
@@ -28,6 +32,14 @@ class ShakeText extends Behavior {
 		.replace(/[^a-zA-Z ]/g, '')
 		.trim()
 		.split('');
+	  if( splitMessage.length > 20) {
+		 this.bot.postMessage(channel, "Listen, I understand your upset. But I can't do that! Try to type something smaller okay?~", {
+      			icon_emoji: ':hoof_beatz:',
+      			thread_ts: data.thread_ts
+		 });
+		
+    return undefined
+	  }
 
 const parsedMessage = splitMessage.map(alpha => alpha == " " ? ":ws:" : `:sh-${alpha}:`);
 
