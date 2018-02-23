@@ -37,6 +37,11 @@ class ShakeText extends Behavior {
       			icon_emoji: ':hoof_beatz:',
       			thread_ts: data.thread_ts
 		 });
+
+ 		this.bot.postMessage(channel, ":sh-g::sh-o::sh-t::blank::sh-i::sh-t:*?!*", {
+      			icon_emoji: ':shakehoof_beatz:',
+      			thread_ts: data.thread_ts
+		 });
 		
     return undefined
 	  }
