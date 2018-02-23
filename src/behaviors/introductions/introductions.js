@@ -14,7 +14,7 @@ class Introductions extends Behavior {
 
     Promise.all([bot.getUser('chibishibe')]).then((users) => {
       const [chibishibe] = users,
-        chibishibeTag = `<@${chibishibe.id}|${chibishibe.name}>`;
+        chibishibetag = `<@${chibishibe.id}|${chibishibe.name}>`;
 
       messages.messages.forEach((message) => {
         promise = promise.then(() => {
