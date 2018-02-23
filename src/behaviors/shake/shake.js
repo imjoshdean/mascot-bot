@@ -14,7 +14,7 @@ class ShakeText extends Behavior {
   }
 
   execute(command, message, channel, data) {
-    const parsedMessage = this.parseMessage(message);
+    const parsedMessage = this.parseMessage(message, channel, data);
 	if( parsedMessage == undefined) {
 	
 	return
@@ -26,7 +26,7 @@ class ShakeText extends Behavior {
     });
   }
 
-  parseMessage(message) {
+  parseMessage(message, channel, data) {
    let splitMessage = message.replace(/^!shake/gi, '')
    		.replace(/\:\w*\:/gi, '')
 		.replace(/[^a-zA-Z ]/g, '')
