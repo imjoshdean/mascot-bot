@@ -20,7 +20,7 @@ class RollTheDice extends Behavior {
       sum = 0;
 
     if (roll.number > 100 || roll.sides > 100) {
-      this.bot.postMessage(channel, `You rolled a Natural 1!, Don't roll more than 100 dice or si`, {
+      this.bot.postMessage(channel, `I can't all these dice!!! Don't roll more than 100 dice or sides`, {
         icon_emoji: ':game_die:',
         thread_ts: data.thread_ts
       });
