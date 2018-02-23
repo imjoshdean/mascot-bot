@@ -17,6 +17,7 @@ import settings from './settings.json';
 const mascot = new MascotBot({
   ...settings.bot,
   behaviors: [
+    Introductions,
     Shake,
     Impossible,
     Greet,
