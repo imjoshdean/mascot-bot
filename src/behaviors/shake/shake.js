@@ -29,7 +29,7 @@ class ShakeText extends Behavior {
 		.trim()
 		.split('');
 
-const parsedMessage = splitMessage.map(alpha => alpha == " " ? ":ws:" : ":sh-$[alpha}:");
+const parsedMessage = splitMessage.map(alpha => alpha == " " ? ":ws:" : `:sh-${alpha}:`);
 
     return parsedMessage;
   }
