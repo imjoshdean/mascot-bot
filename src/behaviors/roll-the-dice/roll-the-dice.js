@@ -35,7 +35,7 @@ class RollTheDice extends Behavior {
 
     results = rolls.join(', ');
 
-    sum = rolls.reduce((a, b) => a + b);
+    sum = rolls.reduce((a, b) => a + b, 0);
     results += ` (${sum})`;
 
     this.bot.postMessage(channel, `You rolled ${results}.`, {
