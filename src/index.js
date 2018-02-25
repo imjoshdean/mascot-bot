@@ -29,7 +29,7 @@ const mascot = new MascotBot({
     {
       behavior: DaysUntil,
       settings: {
-        conDate: '2018-07-27 00-05:00',
+        conDate: '2018-07-26 00-05:00',
         maxDays: 365,
         sayInChannel: '#all-staff',
         isPublic: true
