@@ -18,7 +18,7 @@ class DaysUntil extends Behavior {
   initialize(bot) {
     super.initialize(bot);
 
-    this.scheduleJob('51 21 * * *', () => {
+    this.scheduleJob('58 21 * * *', () => {
       this.updateTopic(bot);
     });
   }
