@@ -110,12 +110,12 @@ class DaysUntil extends Behavior {
         channel: channel.id,
         topic
       }, (error) => {
-        bot.log(topicFunction, true);
-        bot.log(error, true);
+        console.log(topicFunction, true);
+        console.log(error, true);
       });
     }, (error) => {
-      bot.log(getFunction, true);
-      bot.log(error, true);
+      console.log(getFunction, true);
+      console.log(error, true);
     }).catch(console.log);
   }
 
