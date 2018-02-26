@@ -18,7 +18,7 @@ class DaysUntil extends Behavior {
   initialize(bot) {
     super.initialize(bot);
 
-    this.scheduleJob('9 22 * * *', () => {
+    this.scheduleJob('11 22 * * *', () => {
       this.updateTopic(bot);
     });
   }
@@ -90,7 +90,7 @@ class DaysUntil extends Behavior {
       bot.groups = undefined;
       bot.channels = undefined;
       const days = this.calculateDaysUntil();
-      let topic = "channel.topic.value",
+      let topic = channel.topic.value,
         message = '';
 
       if (days === 1) {
