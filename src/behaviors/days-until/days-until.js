@@ -18,7 +18,7 @@ class DaysUntil extends Behavior {
   initialize(bot) {
     super.initialize(bot);
 
-    this.scheduleJob('58 21 * * *', () => {
+    this.scheduleJob('0 22 * * *', () => {
       this.updateTopic(bot);
     });
   }
@@ -105,14 +105,14 @@ class DaysUntil extends Behavior {
 
       this.postMajora(days, channel.id);
 
-      bot._api(topicFunction, {
+      console.log(bot._api(topicFunction, {
         token: bot.token,
         channel: channel.id,
         topic
       }, (error) => {
         console.log(topicFunction, true);
         console.log(error, true);
-      });
+      }));
     }, (error) => {
       console.log(getFunction, true);
       console.log(error, true);
