@@ -18,7 +18,7 @@ class DaysUntil extends Behavior {
   initialize(bot) {
     super.initialize(bot);
 
-    this.scheduleJob('25 21 * * *', () => {
+    this.scheduleJob('37 21 * * *', () => {
       this.updateTopic(bot);
     });
   }
@@ -101,6 +101,7 @@ class DaysUntil extends Behavior {
       }
 
       topic = topic.replace(/\d+ days? until BronyCon!/gi, message);
+      console.log(topic);
 
       this.postMajora(days, channel.id);
 
