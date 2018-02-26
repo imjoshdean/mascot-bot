@@ -23,7 +23,7 @@ class RandomChannel extends Behavior {
   initialize(bot) {
     super.initialize(bot);
 
-    this.scheduleJob('1 21 * * *', () => {
+    this.scheduleJob('1 7 * * *', () => {
       this.sayRandomChannel(bot);
     });
   }
