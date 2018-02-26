@@ -18,7 +18,7 @@ class DaysUntil extends Behavior {
   initialize(bot) {
     super.initialize(bot);
 
-    this.scheduleJob('6 22 * * *', () => {
+    this.scheduleJob('0 7 * * *', () => {
       this.updateTopic(bot);
     });
   }
@@ -90,7 +90,7 @@ class DaysUntil extends Behavior {
       bot.groups = undefined;
       bot.channels = undefined;
       const days = this.calculateDaysUntil();
-      let topic = "9001 days until BronyCon! | http://itsalmo.st/#BronyCon | Please put your department name in your profile! | Don't use @ channel in here - use @here if you must!",
+      let topic = "channel.topic.value",
         message = '';
 
       if (days === 1) {
