@@ -1,28 +1,28 @@
 import Behavior from '../behavior.js';
 
-class TheClap extends Behavior {
+class ClaporRave extends Behavior {
   constructor(settings) {
-    settings.name = 'Clap Hype';
-    settings.description = `'cause 👏 sometimes 👏 you 👏 need 👏 emphasis!`;
+    settings.name = 'ClappingRave';
+    settings.description = `'cause sometimes you need emphasis!`;
     super(settings);
 
-    this.commands.push({
-      tag: 'clap',
-      description: `I'll hype your message for you 👏👏👏`
-    });
+    ['clap', 'rubyrave', 'wut'].forEach(emoji => this.commands.push({
+      tag: emoji,
+      description: `I'll hype your message, !Clap or !Rave`
+    }));
   }
 
   execute(command, message, channel, data) {
-    const parsedMessage = this.parseMessage(message);
+    const parsedMessage = this.parseMessage(message, command);
 
-    this.bot.postMessage(channel, `${parsedMessage.join(' :clap: ')} :clap:`, {
+    this.bot.postMessage(channel, `${parsedMessage.join(' :' + command + ': ')} :${command}:`, {
       icon_emoji: ':clap:',
       thread_ts: data.thread_ts
     });
   }
 
-  parseMessage(message) {
-    let splitMessage = message.replace(/^!clap/gi, '').replace(/\s+/g, ' ').trim().split(' ');
+  parseMessage(message, command) {
+    let splitMessage = message.replace(new RegExp(`^!${command}`, 'gi'), '').replace(/\s+/g, ' ').trim().split(' ');
 
     const emojiRegex = /^:.*:$/;
 
@@ -34,4 +34,4 @@ class TheClap extends Behavior {
   }
 }
 
-export default TheClap;
+export default ClaporRave;
