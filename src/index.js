@@ -6,7 +6,6 @@ import RollTheDice from './behaviors/roll-the-dice/roll-the-dice.js';
 import Birthdays from './behaviors/birthdays/birthdays.js';
 import Karma from './behaviors/karma/karma.js';
 import Eventbrite from './behaviors/eventbrite/eventbrite.js';
-import Clap from './behaviors/clap/clap.js';
 import Greet from './behaviors/greet/greet.js';
 import Impossible from './behaviors/impossible/impossible.js';
 import Shake from './behaviors/shake/shake.js';
@@ -21,7 +20,6 @@ const mascot = new MascotBot({
     Shake,
     Impossible,
     Greet,
-    Clap,
     ExplainBehaviors,
     {
       behavior: Birthdays,
