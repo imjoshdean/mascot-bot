@@ -9,14 +9,14 @@ import Eventbrite from './behaviors/eventbrite/eventbrite.js';
 import Greet from './behaviors/greet/greet.js';
 import Impossible from './behaviors/impossible/impossible.js';
 import Shake from './behaviors/shake/shake.js';
-import Emp from './behaviors/emp/emp.js';
+import Emphasis from './behaviors/emphasis/emphasis.js';
 import settings from './settings.json';
 
 
 const mascot = new MascotBot({
   ...settings.bot,
   behaviors: [
-    Emp,
+    Emphasis,
     Shake,
     Impossible,
     Greet,

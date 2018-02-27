@@ -15,7 +15,7 @@ class ShakeText extends Behavior {
   
   execute(command, message, channel, data) {
     const parsedMessage = this.parseMessage(message, channel, data);
-    if( parsedMessage == undefined) {
+      if( parsedMessage == undefined) {
       return
     }
     
@@ -27,10 +27,10 @@ class ShakeText extends Behavior {
   
   parseMessage(message, channel, data) {
     let splitMessage = message.replace(/^!shake/gi, '')
-    .replace(/\:\w*\:/gi, '')
-    .replace(/[^a-zA-Z ]/g, '')
-    .trim()
-    .split('');
+      .replace(/\:\w*\:/gi, '')
+      .replace(/[^a-zA-Z ]/g, '')
+      .trim()
+      .split('');
     if(splitMessage.length > 20) {
       this.bot.postMessage(channel, "Listen, I understand you're upset. But I can't do that! Try to type something smaller okay?~", {
         icon_emoji: ':hoof_beatz:',

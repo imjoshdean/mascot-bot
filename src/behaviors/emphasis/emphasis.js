@@ -1,6 +1,6 @@
 import Behavior from '../behavior.js';
 
-class Emp extends Behavior {
+class Emphasis extends Behavior {
   constructor(settings) {
     settings.name = 'Emphasis Emoji';
     settings.description = `'cause sometimes you need emphasis!`;
@@ -34,4 +34,4 @@ class Emp extends Behavior {
   }
 }
 
-export default Emp;
+export default Emphasis;
