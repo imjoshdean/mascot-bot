@@ -6,14 +6,14 @@ export default class GreetBehavior extends Behavior {
 
     super(settings);
 
-    this.addCommand('hello', 'Say !hello and I\'ll say hi back!');
+    this.addCommand('hello', `Say !hello and I'll say hi back!`);
   }
 
   execute(command, message, channel, data) {
     switch (command) {
     case 'hello':
       this.bot.postMessage(channel, `Yo, What's goin on! Enjoyin' Slack? <@${data.user}>!`, {
-        icon_emoji: ':Hoof_beatz:'
+        icon_emoji: ':hoof_beatz:'
       });
       break;
     default:

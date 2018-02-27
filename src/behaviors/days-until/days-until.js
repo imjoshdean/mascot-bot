@@ -101,22 +101,21 @@ class DaysUntil extends Behavior {
       }
 
       topic = topic.replace(/\d+ days? until BronyCon!/gi, message);
-      console.log(topic);
 
       this.postMajora(days, channel.id);
 
-      console.log(bot._api(topicFunction, {
+      bot._api(topicFunction, {
         token: bot.token,
         channel: channel.id,
         topic
-      }, (error) => {
-        console.log(topicFunction, true);
-        console.log(error, true);
-      }).catch(console.log));
+      }).catch((error) => {
+        bot.log(topicFunction, true);
+        bot.log(error, true);
+      });
     }, (error) => {
-      console.log(getFunction, true);
-      console.log(error, true);
-    }).catch(console.log);
+      bot.log(getFunction, true);
+      bot.log(error, true);
+    });
   }
 
 }

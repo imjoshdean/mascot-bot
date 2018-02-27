@@ -1,14 +1,14 @@
 import Behavior from '../behavior.js';
 
-class ClaporRave extends Behavior {
+class Emp extends Behavior {
   constructor(settings) {
-    settings.name = 'ClappingRave';
+    settings.name = 'Emphasis Emoji';
     settings.description = `'cause sometimes you need emphasis!`;
     super(settings);
 
     ['clap', 'rubyrave', 'wut'].forEach(emoji => this.commands.push({
       tag: emoji,
-      description: `I'll hype your message, !Clap or !Rave`
+      description: `I'll hype your message!`
     }));
   }
 
@@ -16,7 +16,7 @@ class ClaporRave extends Behavior {
     const parsedMessage = this.parseMessage(message, command);
 
     this.bot.postMessage(channel, `${parsedMessage.join(' :' + command + ': ')} :${command}:`, {
-      icon_emoji: ':clap:',
+      icon_emoji: `:${command}:`,
       thread_ts: data.thread_ts
     });
   }
@@ -34,4 +34,4 @@ class ClaporRave extends Behavior {
   }
 }
 
-export default ClaporRave;
+export default Emp;
