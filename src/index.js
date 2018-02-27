@@ -10,12 +10,14 @@ import Clap from './behaviors/clap/clap.js';
 import Greet from './behaviors/greet/greet.js';
 import Impossible from './behaviors/impossible/impossible.js';
 import Shake from './behaviors/shake/shake.js';
+import Rave from './behaviors/rave/rave.js';
 import settings from './settings.json';
 
 
 const mascot = new MascotBot({
   ...settings.bot,
   behaviors: [
+    Rave,
     Shake,
     Impossible,
     Greet,
