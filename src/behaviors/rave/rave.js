@@ -1,6 +1,6 @@
 import Behavior from '../behavior.js';
 
-class TheClap extends Behavior {
+class Rave extends Behavior {
   constructor(settings) {
     settings.name = 'Rave';
     settings.description = `'Because Dex needs The Clap as well`;
