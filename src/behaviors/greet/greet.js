@@ -12,7 +12,7 @@ export default class GreetBehavior extends Behavior {
   execute(command, message, channel, data) {
     switch (command) {
     case 'hello':
-      this.bot.postMessage(channel, `Yo, What's goin on! Enjoyin' Slack? <@${data.user}>!`, {
+      this.bot.postMessage(channel, `Yo, What's goin on! Are you enjoyin' slack? <@${data.user}>!`, {
         icon_emoji: ':hoof_beatz:'
       });
       break;
