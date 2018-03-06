@@ -108,7 +108,7 @@ class DaysUntil extends Behavior {
         token: bot.token,
         channel: channel.id,
         topic
-      }, (error) => {
+      }).catch((error) => {
         bot.log(topicFunction, true);
         bot.log(error, true);
       });
