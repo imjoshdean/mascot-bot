@@ -35,23 +35,16 @@ class ExplainBehaviors extends Behavior {
 
   explainBehaviors(channel, messageData) {
     let promise = Promise.resolve();
-
-    promise = promise.then(() => {
-      return this.bot.postMessage(channel, `Hi there! I can help out when you use the following commands:`, {
-        icon_emoji: ':question:',
-        thread_ts: messageData.thread_ts
-      });
-    });
+    let response = 'Hi there! I can help you out when you use the following commands:\n'
 
     this.bot._behaviorCommands.forEach(command => {
-      promise = promise.then(() => {
-        return this.bot.postMessage(channel, `\`!${command.tag}\` - ${command.description}`, {
-          thread_ts: messageData.thread_ts
-        });
-      });
+      response += `\`!${command.tag}\` - ${command.description}\n`;
     });
 
-    return promise;
+    return Promise.resolve(this.bot.postMessage(channel, response, {
+      icon_emoji: ':question:',
+      thread_ts: messageData.thread_ts
+    }));
   }
 
   explainFeatures(channel, messageData) {
