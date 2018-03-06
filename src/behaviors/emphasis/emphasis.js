@@ -1,23 +1,29 @@
 import Behavior from '../behavior.js';
 
+const EMPH_CMD_RE = /!(:[\w-]+:) /;
+
 class Emphasis extends Behavior {
   constructor(settings) {
     settings.name = 'Emphasis Emoji';
     settings.description = `'cause sometimes you need emphasis!`;
     super(settings);
-
-    ['clap', 'rubyrave', 'wut'].forEach(emoji => this.commands.push({
-      tag: emoji,
-      description: `I'll hype your message!`
-    }));
   }
 
-  execute(command, message, channel, data) {
-    const parsedMessage = this.parseMessage(message, command);
+  initialize(bot) {
+    bot.on('message', this.emphasize.bind(this));
+  }
 
-    this.bot.postMessage(channel, `${parsedMessage.join(' :' + command + ': ')} :${command}:`, {
-      icon_emoji: `:${command}:`,
-      thread_ts: data.thread_ts
+  emphasize(messageData) {
+    const match = EMPH_CMD_RE.exec(messageData.text);
+    if(match === null) {
+      return;
+    }
+    const [,emoji] = match;
+
+    const parsedMessage = this.parseMessage(messageData.text, emoji);
+    this.bot.postMessage(messageData.channel, `${parsedMessage.join(` ${emoji} `)} ${emoji}`, {
+      icon_emoji: emoji,
+      thread_ts: messageData.thread_ts
     });
   }
 
