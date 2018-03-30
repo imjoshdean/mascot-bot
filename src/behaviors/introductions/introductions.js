@@ -14,12 +14,12 @@ class Introductions extends Behavior {
 
     Promise.all([bot.getUser('imjoshdean'), bot.getUser('sheva')]).then((users) => {
       const [josh, sheva] = users,
-        joshTag = `<@${josh.id}|${josh.name}>`,
+        joshtTag = `<@${josh.id}|${josh.name}>`;
         shevaTag = `<@${sheva.id}|${sheva.name}>`;
 
       messages.messages.forEach((message) => {
         promise = promise.then(() => {
-          const text = message.text.replace('@imjoshdean', joshTag).replace('@sheva', shevaTag);
+          const text = message.text.replace('@imjoshdean', joshtTag).replace('@sheva', shevaTag);
           return bot.say('#all-staff', text, message.options);
         });
       });

@@ -6,14 +6,20 @@ import RollTheDice from './behaviors/roll-the-dice/roll-the-dice.js';
 import Birthdays from './behaviors/birthdays/birthdays.js';
 import Karma from './behaviors/karma/karma.js';
 import Eventbrite from './behaviors/eventbrite/eventbrite.js';
-import Clap from './behaviors/clap/clap.js';
+import Greet from './behaviors/greet/greet.js';
+import Impossible from './behaviors/impossible/impossible.js';
+import Shake from './behaviors/shake/shake.js';
+import Emphasis from './behaviors/emphasis/emphasis.js';
 import settings from './settings.json';
 
 
 const mascot = new MascotBot({
   ...settings.bot,
   behaviors: [
-    Clap,
+    Emphasis,
+    Shake,
+    Impossible,
+    Greet,
     ExplainBehaviors,
     {
       behavior: Birthdays,
@@ -23,8 +29,8 @@ const mascot = new MascotBot({
     {
       behavior: DaysUntil,
       settings: {
-        conDate: '8/11/2017',
-        maxDays: 398,
+        conDate: '2018-07-26 09-05:00',
+        maxDays: 389,
         sayInChannel: '#all-staff',
         isPublic: true
       }
